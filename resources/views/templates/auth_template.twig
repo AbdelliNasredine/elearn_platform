@@ -1,0 +1,85 @@
+{% extends "templates/base.twig" %}
+{% block head %}
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: sans-serif;
+            background-color: aquamarine;
+            padding: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            padding: 2.5rem;
+            background-color: white;
+        }
+        .input-box {
+            position: relative;
+            display: flex;
+            margin: .5rem 0;
+        }
+        .input-box input {
+            z-index: 2;
+            flex: 1;
+            height: 3rem;
+            border-radius: 0;
+            border: thin solid black;
+            background-color: transparent;
+            padding: 1rem 0 0 .75rem;
+            font-size: 1rem;
+            outline: none;
+            border-radius: .25rem;
+        }
+        .input-box input[type="password"] {
+            letter-spacing: .15rem;
+        }
+        .input-box input:focus {
+            border-color: #2962f1;
+        }
+        .input-box .focused, .input-box input:focus + label{
+            font-size: .897rem;
+            top: .25rem;
+            color: #2962f1;
+        }
+        .input-box label {
+            z-index: 1;
+            position: absolute;
+            font-size: 1.25rem;
+            top: .75rem;
+            left: .75rem;
+            transition: font-size .3s, top .3s;
+        }
+    </style>
+{% endblock %}
+{% block javascript %}
+<script>
+(function () {
+    class FormInput {
+        constructor(element) {
+            this.input = element.querySelector("input");
+            this.label = element.querySelector("label");
+            this.onBlur = this.onBlur.bind(this);
+            this.input.addEventListener("blur", this.onBlur)
+        }
+
+        onBlur() {
+            console.log(this);
+            if(this.input.value)
+                this.label.classList.add("focused");
+            else
+                this.label.classList.remove("focused");
+        }
+
+        static init(elements = []){
+           elements.forEach(element => new FormInput(element));
+        }
+    }
+    FormInput.init(document.querySelectorAll(".input-box"));
+})();
+</script>
+{% endblock %}

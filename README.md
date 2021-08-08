@@ -1,3 +1,1 @@
-# Obadil Platform
-
-Student support and learning platform
+# SLMS - Simple Learning Management System
