@@ -9,6 +9,6 @@ class HomeController extends BaseController
 {
     public function index(Request $request, Response $response)
     {
-        return $this->view($response, "pages/home.twig");
+        return $this->view($response, "home.twig");
     }
 }

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+				content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Home</title>
+</head>
+<body>
+	<pre>
+		{% if auth.check %}
+			{{ auth.user | json_encode() }}
+		{% endif %}
+	</pre>
+	<h1>Welcome to The app {{ auth.check ? "," ~ auth.user.username : "." }} </h1>
+	{% if auth.check and auth.user.isAdmin() %}
+		<h5>
+			You are admin
+		</h5>
+	{% elseif auth.check and auth.user.isStudent() %}
+		<h5>
+			You are student
+		</h5>
+	{% endif %}
+
+{#<h1>Home page</h1>#}
+</body>
+</html>

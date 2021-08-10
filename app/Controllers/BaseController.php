@@ -23,4 +23,21 @@ class BaseController
     {
         return $this->view->render($response, $viewPath, $options);
     }
+
+	public function redirect($response , $path)
+	{
+		return $response->withRedirect($this->router->pathFor($path));
+	}
+
+	public function flash($type, $message)
+	{
+		return $this->flash->addMessage($type, $message);
+	}
+
+	public function flashNow($type, $message)
+	{
+		return $this->flash->addMessageNow($type, $message);
+	}
+
+
 }

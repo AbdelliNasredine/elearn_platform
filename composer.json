@@ -13,7 +13,9 @@
         "illuminate/database": "^8.50",
         "vlucas/phpdotenv": "^5.3",
         "slim/flash": "^0.4.0",
-        "kanellov/slim-twig-flash": "^0.2.0"
+        "kanellov/slim-twig-flash": "^0.2.0",
+        "ircmaxell/random-lib": "^1.1",
+        "nesbot/carbon": "^2.51"
     },
     "autoload": {
         "psr-4": {

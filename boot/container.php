@@ -1,5 +1,6 @@
 <?php
 
+use App\Lib\Hash;
 use Illuminate\Database\Capsule\Manager;
 use Knlv\Slim\Views\TwigMessages;
 use Slim\Flash\Messages;
@@ -7,6 +8,7 @@ use Slim\Http\Environment;
 use Slim\Http\Uri;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
+use App\Auth\Auth;
 
 $container = $app->getContainer();
 
@@ -37,13 +39,33 @@ $container["view"] = function ($container) {
     $router = $container->get('router');
     $uri = Uri::createFromEnvironment(new Environment($_SERVER));
 
+    // globals
+	$view->getEnvironment()->addGlobal('auth', [
+		'check' => $container->auth->check(),
+		'user' => $container->auth->user(),
+	]);
+
+
     // extensions
     $view->addExtension(new TwigExtension($router, $uri));
-    $view->addExtension(new TwigMessages($container["flash"]));
+	$view->addExtension(new TwigMessages($container["flash"]));
 
     return $view;
 };
 
+/**
+ * AUTHENTICATION CLASS
+ */
+$container["auth"] = function ($container) {
+	return new Auth;
+};
+
+/**
+ * HASH CLASS
+ */
+$container["hash"] = function($container) {
+	return new Hash;
+};
 
 /**
  * CUSTOM ERROR HANDLERS

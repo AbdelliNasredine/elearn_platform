@@ -1,7 +1,9 @@
 <?php
 
-use App\Controllers\AuthController;
+use App\Controllers\Auth\LoginController;
+use App\Controllers\Auth\RegisterController;
 use App\Controllers\HomeController;
+use App\Middlewares\AuthMiddleware;
 use Slim\App;
 
 /**
@@ -9,16 +11,16 @@ use Slim\App;
  */
 $app->group("/auth", function (App  $app) {
 
-    // GET LOGIN
-    $app->get("/sign-in", AuthController::class . ":getSignIn")->setName("sign-in");
+	$app->get("/login", LoginController::class . ":get")->setName("auth.login");
+    $app->post("/login", LoginController::class . ":post");
+    $app->get("/register" , RegisterController::class . ":get" )->setName("auth.register");
+	$app->post("/register" , RegisterController::class . ":post" );
 
-    // POST LOGIN
-    $app->post("/sign-in", AuthController::class . ":postSignIn")->setName("sign-in");
 });
 
 /**
  * PROTECTED ROUTES (REQUIRES AUTHENTICATION)
  */
 $app->group("", function(App $app) {
-    $app->get("/", HomeController::class . ":index");
-});
+    $app->get("/", HomeController::class . ":index")->setName("home");
+})->add(new AuthMiddleware($app->getContainer()));
