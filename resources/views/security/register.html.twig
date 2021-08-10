@@ -1,46 +1,59 @@
-<!doctype html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport"
-				content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Registration page</title>
-	<style>
-      form {
-          width: 100%;
-          max-width: 600px;
-          margin: 0 auto;
-          padding: 1rem;
-      }
-      label {
-          display: block;
-      }
-			.error {
-					border: thin solid red;
-					padding: 1rem;
-			}
-	</style>
-</head>
-<body>
-	<h1>Registration page</h1>
-	{% if flash("error") %}
-		<div class="error">
-			{{ flash("error") | first }}
+{% extends "templates/base.twig" %}
+
+{% block title %} LMS - Registration Page {% endblock %}
+{% block body %}
+<div class="login-container">
+	<div class="card card-login">
+		<div class="card__header">
+			<h2 class="card__title">Registration</h2>
+			<p class="card_subtext">Please fill your credentials</p>
+			{% if flash("error") %}
+				<div class="error">
+					{{ flash("error") | first }}
+				</div>
+			{% endif %}
+			{% if flash("success") %}
+				<div class="success">
+					{{ flash("success") | first }}
+				</div>
+			{% endif %}
 		</div>
-	{% endif %}
-	<form action="{{ path_for("auth.register") }}" method="POST">
-		<label>
-			username
-			<input type="text" name="username" required>
-		</label>
-		<label>
-			password
-			<input type="password" name="password" required>
-		</label>
-		<button type="submit">register</button>
-	</form>
-	<hr>
-	<a href="{{ path_for("auth.login") }}">login now</a>
-</body>
-</html>
+		<div class="card__body">
+			<form action="{{ path_for("auth.register") }}" method="post">
+				<div class="field field-rounded">
+					<input
+						class="field__input"
+						type="text"
+						name="username"
+						placeholder="username"
+					/>
+					<label class="field__label"> Username </label>
+				</div>
+				<div class="field field-password">
+					<input
+						class="field__input"
+						type="password"
+						name="password"
+						placeholder="password"
+					/>
+					<label class="field__label">Password</label>
+					<button class="field-password__toggle">
+						show
+					</button>
+				</div>
+				<div class="field">
+					<button
+						class="btn btn-primary btn-full btn-rounded"
+						type="submit"
+					>
+						Register
+					</button>
+				</div>
+			</form>
+		</div>
+		<div class="card__footer">
+			<a href="{{ path_for("auth.login") }}">Login</a>
+		</div>
+	</div>
+</div>
+{% endblock %}
