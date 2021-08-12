@@ -63,4 +63,5 @@ class Middleware
 
 		return false;
 	}
+
 }

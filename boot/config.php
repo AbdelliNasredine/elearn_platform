@@ -29,4 +29,8 @@ return [
             "cache" => false,
         ],
     ],
+	"lang" => [
+		"default" => "ar",
+		"available" => ["ar", "en", "fr"],
+	]
 ];
