@@ -16,7 +16,8 @@
         "kanellov/slim-twig-flash": "^0.2.0",
         "ircmaxell/random-lib": "^1.1",
         "nesbot/carbon": "^2.51",
-        "slim/csrf": "0.8.3"
+        "slim/csrf": "0.8.3",
+        "illuminate/translation": "^8.54"
     },
     "autoload": {
         "psr-4": {
