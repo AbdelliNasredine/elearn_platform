@@ -6,8 +6,19 @@
 				content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Home</title>
+	<style>
+	 .welcome {
+			 font-size: 2.5rem;
+			 color: #1baba1;
+	 }
+	</style>
 </head>
 <body>
+
+	<header>
+		<h1> {{ lang() }} </h1>
+	</header>
+
 	<pre>
 		{% if auth.check %}
 			<p>

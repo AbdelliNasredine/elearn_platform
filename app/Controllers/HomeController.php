@@ -10,8 +10,8 @@ class HomeController extends BaseController
     public function index(Request $request, Response $response)
     {
 
-    	die(var_dump($this->translator->get("headers.welcome")));
+    	// die(var_dump($this->translator->get("headers.welcome")));
 
-    	return $this->view($response, "home.twig", ["lang" => $this->language]);
+    	return $this->view($response, "home.twig");
     }
 }

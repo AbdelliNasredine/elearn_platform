@@ -4,11 +4,16 @@ use App\Auth\Auth;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\RegisterController;
 use App\Controllers\HomeController;
+use App\Controllers\LanguageController;
 use App\Lib\Session;
 use App\Middlewares\AuthMiddleware;
 use App\Middlewares\GuestMiddleware;
 use Slim\App;
 
+/**
+ * LANGUAGE SWITCH
+ */
+$app->get("/lang/{lang}", LanguageController::class)->setName("language.switch");
 
 /**
  * GUEST ROUTES (NO AUTHENTICATION)

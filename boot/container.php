@@ -50,7 +50,7 @@ $container["csrf"] = function($container) {
 $container["translator"] = function ($container) {
 
 	$path = $container["translations"]["path"];
-	$fallBack = $container["translations"]["fallback"];
+	$fallBack = $container["lang"]["default"];
 
 	$loader = new FileLoader(
 		new Filesystem(),
@@ -75,7 +75,6 @@ $container["view"] = function ($container) {
 		'check' => $container->auth->check(),
 		'user' => $container->auth->user(),
 	]);
-
 
     // extensions
     $view->addExtension(new TwigExtension($router, $uri));
