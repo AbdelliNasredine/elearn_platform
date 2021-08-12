@@ -4,6 +4,7 @@
 namespace App\Middlewares;
 
 use Psr\Container\ContainerInterface;
+use Slim\Exception\NotFoundException;
 
 class Middleware
 {

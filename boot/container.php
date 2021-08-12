@@ -1,8 +1,10 @@
 <?php
 
+use App\Core\TwigExtensions\CsrfExtension;
 use App\Lib\Hash;
 use Illuminate\Database\Capsule\Manager;
 use Knlv\Slim\Views\TwigMessages;
+use Slim\Csrf\Guard;
 use Slim\Flash\Messages;
 use Slim\Http\Environment;
 use Slim\Http\Uri;
@@ -32,6 +34,13 @@ $container["flash"] = function ($container) {
 };
 
 /**
+ * CSRF
+ */
+$container["csrf"] = function($container) {
+	return new Guard();
+};
+
+/**
  * VIEW ENGINE INITIALIZATION
  */
 $container["view"] = function ($container) {
@@ -49,6 +58,7 @@ $container["view"] = function ($container) {
     // extensions
     $view->addExtension(new TwigExtension($router, $uri));
 	$view->addExtension(new TwigMessages($container["flash"]));
+	$view->addExtension(new CsrfExtension($container->get("csrf")));
 
     return $view;
 };

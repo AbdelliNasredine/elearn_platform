@@ -9,10 +9,6 @@ use App\Middlewares\AuthMiddleware;
 use App\Middlewares\GuestMiddleware;
 use Slim\App;
 
-/**
- * HOME ROUTE
- */
-$app->get("/", HomeController::class . ":index")->setName("home");
 
 /**
  * GUEST ROUTES (NO AUTHENTICATION)
@@ -30,8 +26,11 @@ $app->group("/auth", function (App  $app) {
 /**
  * PROTECTED ROUTES (REQUIRES AUTHENTICATION)
  */
-$app->group("/auth", function(App $app) {
-	$app->get("/logout", function ($request, $response) {
+$app->group("", function(App $app) {
+	$app->get("/", HomeController::class . ":index")->setName("home");
+
+	// logout
+	$app->get("/auth/logout", function ($request, $response) {
 		Session::destroy(Auth::AUTH_ID_KEY);
 		return $response->withRedirect($this->router->pathFor("home"));
 	});
