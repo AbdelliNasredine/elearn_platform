@@ -32,5 +32,9 @@ return [
 	"lang" => [
 		"default" => "ar",
 		"available" => ["ar", "en", "fr"],
+	],
+	"translations" => [
+		"path" => __DIR__ . "/../resources/i18n",
+		"fallback" => "ar"
 	]
 ];

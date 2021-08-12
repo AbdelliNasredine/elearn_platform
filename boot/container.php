@@ -4,6 +4,9 @@ use App\Core\TwigExtensions\CsrfExtension;
 use App\Core\TwigExtensions\LanguageExtension;
 use App\Lib\Hash;
 use Illuminate\Database\Capsule\Manager;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Translation\FileLoader;
+use Illuminate\Translation\Translator;
 use Knlv\Slim\Views\TwigMessages;
 use Slim\Csrf\Guard;
 use Slim\Flash\Messages;
@@ -39,6 +42,24 @@ $container["flash"] = function ($container) {
  */
 $container["csrf"] = function($container) {
 	return new Guard();
+};
+
+/**
+ * TRANSLATOR
+ */
+$container["translator"] = function ($container) {
+
+	$path = $container["translations"]["path"];
+	$fallBack = $container["translations"]["fallback"];
+
+	$loader = new FileLoader(
+		new Filesystem(),
+		$path
+	);
+
+	$translator = new Translator($loader, $container->language);
+	$translator->setFallback($path);
+	return $translator;
 };
 
 /**
