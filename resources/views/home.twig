@@ -10,7 +10,9 @@
 <body>
 	<pre>
 		{% if auth.check %}
-			{{ auth.user | json_encode() }}
+			<p>
+				{{ auth.user | raw }}
+			</p>
 		{% endif %}
 	</pre>
 	<h1>Welcome to The app {{ auth.check ? "," ~ auth.user.username : "." }} </h1>
@@ -25,9 +27,15 @@
 	{% endif %}
 
 	<p>
-		The language is {{ lang }}
+		The current language is {{ lang() }} <br>
 	</p>
 
-{#<h1>Home page</h1>#}
+	<ul>
+		{% for lang in available_langs() %}
+			<li> {{ lang }} </li>
+		{% endfor %}
+	</ul>
+
+	{# <h1>Home page</h1> #}
 </body>
 </html>

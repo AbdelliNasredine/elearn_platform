@@ -1,6 +1,7 @@
 <?php
 
 use App\Core\TwigExtensions\CsrfExtension;
+use App\Core\TwigExtensions\LanguageExtension;
 use App\Lib\Hash;
 use Illuminate\Database\Capsule\Manager;
 use Knlv\Slim\Views\TwigMessages;
@@ -59,6 +60,7 @@ $container["view"] = function ($container) {
     $view->addExtension(new TwigExtension($router, $uri));
 	$view->addExtension(new TwigMessages($container["flash"]));
 	$view->addExtension(new CsrfExtension($container->get("csrf")));
+	$view->addExtension(new LanguageExtension($container));
 
     return $view;
 };
