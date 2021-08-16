@@ -1,18 +1,25 @@
-<div class="dropdown">
-	<button class="btn dropdown__toggle">
+<div class="flex">
+	<button
+		class="btn btn-small btn-outline modal-toggle"
+		data-model-id="language_model">
 		<span class="material-icons-round"> language </span>
 		language
 	</button>
-	<div class="dropdown__content dropdown__content-top">
-		{% for available_language in available_langs() %}
-			{% if available_language != current_lang() %}
-					<a
-						class="dropdown__item"
-						href="{{ path_for('language.switch', { 'lang': available_language }, {'r': current_path() }) }}"
-					>
-						{{ available_language }}
-					</a>
-			{% endif %}
-		{% endfor %}
+	<div class="model" id="language_model">
+		<div class="model__wrapper">
+			<button class="model__close">
+				<span class="material-icons-round"> close </span>
+			</button>
+			<h3>Select your language</h3>
+			<div class="flex gap-2">
+				{% for available_language in available_langs() %}
+					{% if available_language != current_lang() %}
+						<a href="{{ path_for('language.switch', { 'lang': available_language }, {'r': current_path() }) }}">
+							{{ available_language }}
+						</a>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
 	</div>
 </div>
