@@ -1,9 +1,18 @@
-<ul>
-	{% for available_language in available_langs() %}
-		{% if available_language != current_lang() %}
-			<li>
-				<a href=" {{ path_for("language.switch", { 'lang': available_language }, {'r': current_path() }) }} "> {{ available_language }} </a>
-			</li>
-		{% endif %}
-	{% endfor %}
-</ul>
+<div class="dropdown">
+	<button class="btn dropdown__toggle">
+		<span class="material-icons-round"> language </span>
+		language
+	</button>
+	<div class="dropdown__content dropdown__content-top">
+		{% for available_language in available_langs() %}
+			{% if available_language != current_lang() %}
+					<a
+						class="dropdown__item"
+						href="{{ path_for('language.switch', { 'lang': available_language }, {'r': current_path() }) }}"
+					>
+						{{ available_language }}
+					</a>
+			{% endif %}
+		{% endfor %}
+	</div>
+</div>

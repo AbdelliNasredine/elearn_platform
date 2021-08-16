@@ -21,7 +21,8 @@ class LanguageExtension extends AbstractExtension
 	{
 		return [
 			new TwigFunction("current_lang", array($this, "getCurrentLanguage")),
-			new TwigFunction("available_langs", array($this, "getAvailableLanguages"))
+			new TwigFunction("available_langs", array($this, "getAvailableLanguages")),
+			new TwigFunction("__", array($this->translator, "get"))
 		];
 	}
 

@@ -23,6 +23,8 @@ class LoginController extends BaseController
 		$username = filter_var($request->getParam("username"), FILTER_SANITIZE_STRING);
 		$password = filter_var($request->getParam("password"), FILTER_SANITIZE_STRING);
 
+		// @todo implement validation of user data
+
 		// checking if user with this username is found
 		$user = User::findByUsername($username);
 
@@ -33,8 +35,8 @@ class LoginController extends BaseController
 			return $this->redirect($response, "auth.login");
 		}
 
-		// sucesss: user found with theis credentials
-		if ($user && $this->hash->verifyPassword($password, $user->password)) {
+		// successes: user found with these credentials
+		if ($this->hash->verifyPassword($password, $user->password)) {
 
 			// update last login field
 			$user->updateLastLogin();

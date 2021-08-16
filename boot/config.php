@@ -30,7 +30,7 @@ return [
         ],
     ],
 	"lang" => [
-		"default" => "ar",
+		"default" => "en",
 		"available" => ["ar", "en", "fr"],
 	],
 	"translations" => [

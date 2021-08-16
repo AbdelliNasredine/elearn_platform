@@ -21,6 +21,8 @@ class RegisterController extends BaseController
 		$username = filter_var($request->getParam("username"), FILTER_SANITIZE_STRING);
 		$password = filter_var($request->getParam("password"), FILTER_SANITIZE_STRING);
 
+		// @todo implement validation
+
 		// check if the username is not taken by another user
 		$user = User::findByUsername($username);
 
