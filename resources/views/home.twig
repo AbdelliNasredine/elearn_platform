@@ -1,52 +1,53 @@
-<!doctype html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport"
-				content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Home</title>
-	<style>
-	 .welcome {
-			 font-size: 2.5rem;
-			 color: #1baba1;
-	 }
-	</style>
-</head>
-<body>
+{# <header> #}
+{# <h1> {{ current_lang() }} </h1> #}
+{# </header> #}
 
-	<header>
-		<h1> {{ current_lang() }} </h1>
-	</header>
+{# <pre> #}
+{# {% if auth.check %} #}
+{# <p> #}
+{# {{ auth.user | raw }} #}
+{# </p> #}
+{# {% endif %} #}
+{# </pre> #}
+{# <h1>Welcome to The app {{ auth.check ? "," ~ auth.user.username : "." }} </h1> #}
+{# {% if auth.check and auth.user.isAdmin() %} #}
+{# <h5> #}
+{# You are admin #}
+{# </h5> #}
+{# {% elseif auth.check and auth.user.isStudent() %} #}
+{# <h5> #}
+{# You are student #}
+{# </h5> #}
+{# {% endif %} #}
 
-	<pre>
-		{% if auth.check %}
+{# <p> #}
+{# The current language is {{ current_lang() }} <br> #}
+{# </p> #}
+
+{# <ul> #}
+{# {% for lang in available_langs() %} #}
+{# <li> {{ lang }} </li> #}
+{# {% endfor %} #}
+{# </ul> #}
+
+{% extends "templates/main.twig" %}
+{% block main %}
+	<div class="container">
+		<div>
+			<h1>Welcome {{ auth.user.username }}
+				<span class="pill pill-primary">
+				{% if auth.user.isAdmin() %}
+					admin
+				{% elseif auth.user.isStudent() %}
+					student
+				{% endif %}
+			</span>
+			</h1>
 			<p>
-				{{ auth.user | raw }}
 			</p>
-		{% endif %}
-	</pre>
-	<h1>Welcome to The app {{ auth.check ? "," ~ auth.user.username : "." }} </h1>
-	{% if auth.check and auth.user.isAdmin() %}
-		<h5>
-			You are admin
-		</h5>
-	{% elseif auth.check and auth.user.isStudent() %}
-		<h5>
-			You are student
-		</h5>
-	{% endif %}
+		</div>
+	</div>
 
-	<p>
-		The current language is {{ current_lang() }} <br>
-	</p>
+{% endblock %}
 
-	<ul>
-		{% for lang in available_langs() %}
-			<li> {{ lang }} </li>
-		{% endfor %}
-	</ul>
 
-	{# <h1>Home page</h1> #}
-</body>
-</html>

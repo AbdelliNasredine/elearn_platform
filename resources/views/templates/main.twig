@@ -1,0 +1,15 @@
+{% extends "templates/base.twig" %}
+{% block body %}
+	<div class="main-layout">
+		{# header #}
+		{% include 'templates/header.twig' %}
+		<main>
+			{# sidenav #}
+			{% include 'templates/side_nav.twig' %}
+			<div class="main-container">
+					{# main content goes here #}
+					{% block main %}{% endblock %}
+			</div>
+		</main>
+	</div>
+{% endblock %}

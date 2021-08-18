@@ -4,62 +4,100 @@
 
 {% block body %}
 	<div class="login-container">
-		<div class="card card-login">
-			<div class="card__header">
-				<h2 class="card__title"> {{ __("auth.login") }} </h2>
-				<p class="card_subtext"> {{ __("auth.fill_your_credentials")}} </p>
-				{% if flash("error") %}
-					<div class="error">
-						{{ flash("error") | first }}
+		<div class="row">
+
+			{# infrormation column #}
+			<div class="col-8" style="background-color: var(--green)">
+				<div class="container">
+					<div class="hero">
+						<h1 class="display">
+							{# DISPLAY TEXT #}
+							{{ __("messages.welcome") }}
+						</h1>
+						<p class="lead">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad consequuntur deleniti inventore iure optio.
+							Corporis dicta dolorum ducimus eius fugiat, ipsum iusto, nostrum officia pariatur quas reiciendis,
+							similique veniam voluptate!
+						</p>
 					</div>
-				{% endif %}
-				{% if flash("success") %}
-					<div class="success">
-						{{ flash("success") | first }}
-					</div>
-				{% endif %}
+				</div>
 			</div>
-			<div class="card__body">
-				<form action="{{ path_for("auth.login") }}" method="post">
-					<div class="field">
-						<input
-							class="field__input"
-							type="text"
-							name="username"
-							placeholder="username"
-							required
-						/>
-						<label class="field__label"> {{ __("language.username") }} </label>
+
+			{# login form column #}
+			<div class="col-4">
+				<div class="container">
+					<div class="login-wrapper">
+
+						{# Befor login form text #}
+						<h3 class="display">{{ __("messages.login") }}</h3>
+						<p class="lead">{{ __("messages.fill_your_credentials") }}</p>
+
+						{# alerts #}
+						{% if flash("error") %}
+							<div class="alert alert__error">
+								<span class="material-icons-round"> error </span>
+								{{ flash("error") | first }}
+							</div>
+						{% endif %}
+
+						{% if flash("success") %}
+							<div class="alert alert__error">
+								<span class="material-icons-round"> error </span>
+								{{ flash("success") | first }}
+							</div>
+						{% endif %}
+
+						<form action="{{ path_for("auth.login") }}" method="post">
+							{# Username field #}
+							<div class="field">
+								<input id="username" class="field__input" type="text" name="username" placeholder="Username" required>
+								<label for="username" class="field__label"> {{ __("messages.field:username") }} </label>
+							</div>
+
+							{# Password field #}
+							<div class="field">
+								<input id="password" class="field__input" type="password" name="password" placeholder="Password"
+											 required>
+								<label for="password" class="field__label">{{ __("messages.field:password") }}</label>
+								<span class="field-password__toggle material-icons-round">
+										visibility
+									</span>
+							</div>
+
+							{# Remember me field group #}
+							<div class="field-group">
+								<div class="field field-full">
+									<input type="checkbox" name="remember" id="remember">
+									<label for="remember">{{ __("messages.auth:remember_me") }}</label>
+								</div>
+								<div class="field">
+									<a href="#">{{ __("messages.auth:forget_password") }}</a>
+								</div>
+							</div>
+							{# Login Button #}
+							<div class="field">
+								<button class="btn btn-full btn-primary" type="submit">{{ __("messages.login") }}</button>
+							</div>
+
+							{{ csrf() | raw }}
+						</form>
+
+						{# register link #}
+						<div class="field">
+							<p>
+								{{ __("messages.auth:not_registered_yet") }}
+								<a href="{{ path_for("auth.register") }}">
+									{{ __("messages.registration") }}
+								</a>
+							</p>
+						</div>
+
+						{# langauge switcher #}
+						{% include "templates/language_switcher.twig" %}
+
 					</div>
-					<div class="field field-password">
-						<input
-							class="field__input"
-							type="password"
-							name="password"
-							placeholder="password"
-							required
-						/>
-						<label class="field__label"> {{ __("language.password") }} </label>
-						<button class="field-password__toggle  material-icons-round">
-							visibility
-						</button>
-					</div>
-					<div class="field">
-						<button
-							class="btn btn-primary btn-full btn-rounded"
-							type="submit"
-						>
-							{{ __("auth.login") }}
-						</button>
-					</div>
-					{{ csrf() | raw }}
-				</form>
-			</div>
-			<div class="card__footer">
-				<a href="{{ path_for("auth.register") }}">register now</a>
+				</div>
 			</div>
 		</div>
-		{% include "templates/language_switcher.twig" %}
 	</div>
-
 {% endblock %}

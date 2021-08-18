@@ -10,12 +10,14 @@
 			<button class="model__close">
 				<span class="material-icons-round"> close </span>
 			</button>
-			<h3>Select your language</h3>
+			<h3>
+				{{ __("messages.select_language") }}
+			</h3>
 			<div class="flex gap-2">
 				{% for available_language in available_langs() %}
 					{% if available_language != current_lang() %}
 						<a href="{{ path_for('language.switch', { 'lang': available_language }, {'r': current_path() }) }}">
-							{{ available_language }}
+							{{ __("messages." ~ available_language) }}
 						</a>
 					{% endif %}
 				{% endfor %}

@@ -1,0 +1,117 @@
+<header class="header">
+	<div class="logo">
+		<button class="btn btn-secondary nav-toggler">
+			<span class="material-icons-round"> menu </span>
+		</button>
+	</div>
+	<div class="header__wrapper">
+		{# catergories
+		<div class="header__item">
+			<div class="dropdown">
+				<button class="btn btn-small btn-secondary dropdown__toggle">
+					<span class="material-icons-round"> apps </span>
+					categories
+				</button>
+				<ul class="dropdown__content">
+					<li>
+						<a class="dropdown__item" href="#">
+							<span class="material-icons-round"> business </span>
+							Business
+						</a>
+					</li>
+					<li>
+						<a class="dropdown__item" href="#">
+							<span class="material-icons-round"> color_lens </span>
+							Design
+						</a>
+					</li>
+					<li>
+						<a class="dropdown__item" href="#">
+							<span class="material-icons-round"> code </span>
+							Development
+						</a>
+					</li>
+					<li>
+						<a class="dropdown__item" href="#">
+							<span class="material-icons-round"> attach_money </span>
+							Finance & Accounting
+						</a>
+					</li>
+					<li>
+						<a class="dropdown__item" href="#">
+							<span class="material-icons-round"> desktop_mac </span>
+							IT Software
+						</a>
+					</li>
+					<li>
+						<a class="dropdown__item" href="#">
+							<span class="material-icons-round"> mood </span>
+							Life Style
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		#}
+		<div class="header__item">
+			<form action="#">
+				<div class="field-search">
+					<input
+						class="field__input"
+						type="search"
+						name="q"
+						placeholder="search..."
+					/>
+				</div>
+			</form>
+		</div>
+		<div class="header__separator"></div>
+		<div class="header__item">
+			<div class="dropdown">
+				<button class="dropdown__toggle">
+					<img
+						class="profile-image"
+						src="https://randomuser.me/api/portraits/men/61.jpg"
+						alt="user profile"
+					/>
+				</button>
+				<div class="dropdown__content dropdown__content-end">
+					<div class="header__profile">
+						<img
+							class="header__profile-image"
+							src="https://randomuser.me/api/portraits/men/61.jpg"
+							alt=""
+						/>
+						<div class="header__profile-text">
+							<h4> {{ auth.user.username }} </h4>
+							<p class="pill">
+								{{ auth.user.role.name }}
+							</p>
+						</div>
+					</div>
+					<div class="dropdown__sep"></div>
+					<ul class="header__profile-links">
+						<li>
+							<a class="dropdown__item" href="#">
+								<span class="material-icons-round"> account_circle </span>
+								Profile
+							</a>
+						</li>
+						<li>
+							<a class="dropdown__item" href="#">
+								<span class="material-icons-round"> settings </span>
+								Settings
+							</a>
+						</li>
+						<li>
+							<a class="dropdown__item" href="#">
+								<span class="material-icons-round"> power_settings_new </span>
+								Logout
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
