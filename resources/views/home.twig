@@ -1,35 +1,3 @@
-{# <header> #}
-{# <h1> {{ current_lang() }} </h1> #}
-{# </header> #}
-
-{# <pre> #}
-{# {% if auth.check %} #}
-{# <p> #}
-{# {{ auth.user | raw }} #}
-{# </p> #}
-{# {% endif %} #}
-{# </pre> #}
-{# <h1>Welcome to The app {{ auth.check ? "," ~ auth.user.username : "." }} </h1> #}
-{# {% if auth.check and auth.user.isAdmin() %} #}
-{# <h5> #}
-{# You are admin #}
-{# </h5> #}
-{# {% elseif auth.check and auth.user.isStudent() %} #}
-{# <h5> #}
-{# You are student #}
-{# </h5> #}
-{# {% endif %} #}
-
-{# <p> #}
-{# The current language is {{ current_lang() }} <br> #}
-{# </p> #}
-
-{# <ul> #}
-{# {% for lang in available_langs() %} #}
-{# <li> {{ lang }} </li> #}
-{# {% endfor %} #}
-{# </ul> #}
-
 {% extends "templates/main.twig" %}
 {% block main %}
 	<div class="container">
@@ -47,7 +15,6 @@
 			</p>
 		</div>
 	</div>
-
 {% endblock %}
 
 
