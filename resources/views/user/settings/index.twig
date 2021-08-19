@@ -52,33 +52,41 @@
 						{# END CHANGE IMAGE FORM #}
 
 						<div class="mt-1">
+							{# suceess #}
+							{% if flash("success") %}
+								<div class="alert alert__success">
+									<span class="material-icons-round"> error </span>
+									{{ flash("success") | first }}
+								</div>
+							{% endif %}
 							{# START UPDATE PROFILE FORM #}
-							<form action="{{ path_for("user.update-profile") }}" method="post">
+							<form action="{{ path_for("user.editProfile") }}" method="post">
 								{{ csrf() | raw }}
 								<div class="flex gap-1">
 									<div class="field field-small">
-										<label class="label">First name</label>
-										<input class="field__input" type="text" name="first_name"/>
+										<label class="label">First name *</label>
+										<input class="field__input" type="text" name="first_name" value="{{ profile.first_name }}"
+													 required/>
 									</div>
 									<div class="field field-small">
-										<label class="label">Last name</label>
-										<input class="field__input" type="text" name="last_name"/>
+										<label class="label">Last name *</label>
+										<input class="field__input" type="text" name="last_name" value="{{ profile.last_name }}" required/>
 									</div>
 								</div>
 								<div class="flex gap-1">
 									<div class="field field-small">
-										<label class="label">Email Address</label>
-										<input class="field__input" type="email" name="email"/>
+										<label class="label">Email Address *</label>
+										<input class="field__input" type="email" name="email" value="{{ profile.email }}" required/>
 									</div>
 								</div>
 								<div class="flex gap-1">
 									<div class="field field-small">
 										<label class="label">Date of birth</label>
-										<input class="field__input" type="date" name="birth_date">
+										<input class="field__input" type="date" value="{{ profile.birth_date }}" name="birth_date">
 									</div>
 									<div class="field field-small">
 										<label class="label">Phone number</label>
-										<input class="field__input" type="tel" name="phone_number"/>
+										<input class="field__input" type="tel" value="{{ profile.phone_number }}" name="phone_number"/>
 									</div>
 								</div>
 								<button class="btn btn-medium btn-primary" type="submit">

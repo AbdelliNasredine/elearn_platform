@@ -35,12 +35,23 @@ $app->group("/auth", function (App $app) {
 $app->group("", function (App $app) {
 	$app->get("/", HomeController::class . ":index")->setName("home");
 
-	// user settings routes
-	$app->group("/settings", function (App $app) {
-		$app->get("[/]", UserController::class . ":settings")->setName("user.settings");
-		$app->post("/update-profile", UserController::class . ":updateProfile")
-			->setName("user.update-profile");
-	});
+	// user routes
+	$app->get("/user", UserController::class . ":index");
+
+	$app->get("/user/{user_id:[0-9]+}", UserController::class . ":profile")
+		->setName("user.profile");
+
+	$app->get("/user/settings", UserController::class . ":settings")
+		->setName("user.settings");
+
+	$app->post("/user/edit-profile", UserController::class . ":editProfile")
+		->setName("user.editProfile");
+
+	$app->post("/user/change-password", UserController::class . ":changePassword")
+		->setName("user.changePassword");
+
+	$app->post("/user/change-picture", UserController::class . ":changeProfilePicture")
+		->setName("user.changeProfilePicture");
 
 	// logout
 	$app->get("/auth/logout", function ($request, $response) {

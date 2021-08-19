@@ -52,7 +52,7 @@ class LoginController extends BaseController
 			}
 		}
 
-		// return $this->redirect($response, "auth.login");
+		return $this->redirect($response, "auth.login");
 		$this->view($response, "security/login.html.twig");
 	}
 }
