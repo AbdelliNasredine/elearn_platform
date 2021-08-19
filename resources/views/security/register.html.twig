@@ -5,7 +5,7 @@
 {% block body %}
 	<div class="login-container">
 		<div class="row">
-			<div class="col-8" style="background-color: var(--green)">
+			<div class="col-6" style="background-color: var(--green)">
 				<div class="container">
 					<div class="hero">
 						<h1 class="display">{{ __("messages.welcome") }}</h1>
@@ -17,7 +17,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-4">
+			<div class="col-6">
 				<div class="container">
 					<div class="login-wrapper">
 						<h3 class="display">{{ __("messages.registration") }}</h3>
@@ -30,18 +30,34 @@
 								{{ flash("error") | first }}
 							</div>
 						{% endif %}
+						{% if has_error("username") %}
+							<div class="alert alert__error">
+								<span class="material-icons-round"> error </span>
+								{% for error in errors("username") %}
+									{{ error }}
+								{% endfor %}
+							</div>
+						{% endif %}
 
+						{% if has_error("password") %}
+							<div class="alert alert__error">
+								<span class="material-icons-round"> error </span>
+								{% for error in errors("password") %}
+									{{ error }}
+								{% endfor %}
+							</div>
+						{% endif %}
 						<form action="{{ path_for("auth.register") }}" method="post">
 
 							{# Username field #}
 							<div class="field">
-								<input id="username" class="field__input" type="text" name="username" placeholder="Username" required>
+								<input id="username" class="field__input" type="text" name="username" value="{{ val("username") }}" placeholder="Username" required>
 								<label for="username" class="field__label"> {{ __("messages.field:username") }} </label>
 							</div>
 
 							{# Password field #}
 							<div class="field">
-								<input id="password" class="field__input" type="password" name="password" placeholder="Password"
+								<input id="password" class="field__input" type="password" name="password" value="{{ val("password") }}" placeholder="Password"
 											 required>
 								<label for="password" class="field__label">{{ __("messages.field:password") }}</label>
 								<span class="field-password__toggle material-icons-round">
@@ -75,7 +91,7 @@
 							language
 						</button>
 						{% include 'templates/language_switcher.twig' %}
-						
+
 
 					</div>
 				</div>

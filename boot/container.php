@@ -4,6 +4,7 @@ use App\Core\TwigExtensions\CsrfExtension;
 use App\Core\TwigExtensions\LanguageExtension;
 use App\Lib\Hash;
 use Awurth\SlimValidation\Validator;
+use Awurth\SlimValidation\ValidatorExtension;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\FileLoader;
@@ -84,8 +85,9 @@ $container["view"] = function ($container) {
     // extensions
     $view->addExtension(new TwigExtension($router, $uri));
 	$view->addExtension(new TwigMessages($container["flash"]));
-	$view->addExtension(new CsrfExtension($container->get("csrf")));
+	$view->addExtension(new CsrfExtension($container["csrf"]));
 	$view->addExtension(new LanguageExtension($container));
+	$view->addExtension(new ValidatorExtension($container['validator']));
 
     return $view;
 };
