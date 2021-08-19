@@ -108,21 +108,30 @@
 							includes a mix of letters, numbers and symbols.
 						</p>
 						<div class="mt-2">
-							<div class="field field-small">
-								<label>Current Password</label>
-								<input class="field__input" type="password"/>
-							</div>
-							<div class="field field-small">
-								<label>New Password</label>
-								<input class="field__input" type="password"/>
-							</div>
-							<div class="field field-small">
-								<label>New Password (Confirmation)</label>
-								<input class="field__input" type="password"/>
-							</div>
-							<button class="btn btn-medium btn-primary btn-disabled">
-								Save changes
-							</button>
+							{% if flash("success") %}
+								<div class="alert alert__success">
+									<span class="material-icons-round"> error </span>
+									{{ flash("success") | first }}
+								</div>
+							{% endif %}
+							<form action="{{ path_for("user.changePassword") }}" method="post">
+								{{ csrf() | raw }}
+								<div class="field field-small">
+									<label>Current Password</label>
+									<input class="field__input" type="password" name="old_password" required/>
+								</div>
+								<div class="field field-small">
+									<label>New Password</label>
+									<input class="field__input" type="password" name="new_password" required/>
+								</div>
+								<div class="field field-small">
+									<label>New Password (Confirmation)</label>
+									<input class="field__input" type="password" name="new_password_conf" required/>
+								</div>
+								<button class="btn btn-medium btn-primary">
+									Save changes
+								</button>
+							</form>
 						</div>
 					</div>
 					{# END TAB - PASSWORD #}

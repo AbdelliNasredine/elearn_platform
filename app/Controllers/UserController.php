@@ -33,11 +33,10 @@ class UserController extends BaseController
 	// POST /user/edit-profile edit user profile
 	public function editProfile($request, $response)
 	{
-
 		// validating required fields
 		$validator = $this->validator->validate($request, [
-			"first_name" => V::stringType()->notEmpty(),
-			"last_name" => V::stringType()->notEmpty(),
+			"first_name" => V::notEmpty(),
+			"last_name" => V::notEmpty(),
 			"email" => V::email()->notEmpty(),
 			"birth_date" => V::optional(V::date()),
 			"phone_number" => [
@@ -63,7 +62,24 @@ class UserController extends BaseController
 
 	// POST /user/change-password
 	public function changePassword($request, $response){
-		// @todo implement handling change password POST request
+		$validator = $this->validator->validate($request, [
+			"old_password" => V::notEmpty(),
+			"new_password" => V::notEmpty(),
+			"new_password_conf" => V::notEmpty()->equals($request->getParam("new_password"))
+		]);
+		if($validator->isValid()) {
+			// update the auth user password with the new password
+			$user = $this->auth->user();
+			$password_hash = $this->hash->password($request->getParam("new_password"));
+			$user->updatePassword($password_hash);
+
+			// redirect
+			$this->flash("success", "You password has been changed");
+			return $this->redirect($response, "user.settings");
+		}
+
+		// @todo set validation error into flash
+		return $this->redirect($response, "user.settings");
 	}
 
 	// POST /user/change-picture

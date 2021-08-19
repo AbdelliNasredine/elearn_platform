@@ -71,4 +71,9 @@ class User extends Model
 		$this->save();
 	}
 
+	public function updatePassword($hash_password) {
+		$this->password = $hash_password;
+		$this->save();
+	}
+
 }
