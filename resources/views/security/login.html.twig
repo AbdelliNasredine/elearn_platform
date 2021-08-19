@@ -93,7 +93,13 @@
 						</div>
 
 						{# langauge switcher #}
-						{% include "templates/language_switcher.twig" %}
+						<button
+							class="btn btn-small btn-outline modal-toggle"
+							data-model-id="language_model">
+							<span class="material-icons-round"> language </span>
+							language
+						</button>
+						{% include 'templates/language_switcher.twig' %}
 
 					</div>
 				</div>

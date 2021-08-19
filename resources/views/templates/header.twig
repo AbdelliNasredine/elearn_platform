@@ -6,6 +6,14 @@
 	</div>
 	<div class="header__wrapper">
 		<div class="header__item">
+			<button
+				class="btn btn-small btn-outline modal-toggle"
+				data-model-id="language_model">
+				<span class="material-icons-round"> language </span>
+				language
+			</button>
+		</div>
+		<div class="header__item">
 			<form action="#">
 				<div class="field-search">
 					<input
@@ -44,20 +52,12 @@
 					<div class="dropdown__sep"></div>
 					<ul class="header__profile-links">
 						<li>
-							<a class="dropdown__item" href="#">
-								<span class="material-icons-round"> account_circle </span>
-								Profile
-							</a>
-						</li>
-						<li>
-							<a class="dropdown__item" href="#">
-								<span class="material-icons-round"> settings </span>
+							<a class="dropdown__item" href="{{ path_for("user.settings") }}">
 								Settings
 							</a>
 						</li>
 						<li>
-							<a class="dropdown__item" href="#">
-								<span class="material-icons-round"> power_settings_new </span>
+							<a class="dropdown__item" href="{{ path_for("auth.logout") }}">
 								Logout
 							</a>
 						</li>
