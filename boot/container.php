@@ -3,6 +3,7 @@
 use App\Core\TwigExtensions\CsrfExtension;
 use App\Core\TwigExtensions\LanguageExtension;
 use App\Lib\Hash;
+use Awurth\SlimValidation\Validator;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\FileLoader;
@@ -42,6 +43,10 @@ $container["flash"] = function ($container) {
  */
 $container["csrf"] = function($container) {
 	return new Guard();
+};
+
+$container["validator"] = function($container) {
+	return new Validator;
 };
 
 /**
