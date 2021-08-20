@@ -34,18 +34,22 @@
 							<div class="flex gap-2 i-center py-1 px-1 border">
 								<img
 									class="header__profile-image"
-									src="https://randomuser.me/api/portraits/men/61.jpg"
+									src="{{ path_for("file.image", { "name" : auth.user.profile.picture , "username": auth.user.username }) }}"
 									alt=""
 								/>
 								<div class="flex col">
-									<div class="flex gap-1">
-										<a href="#" class="btn btn-primary btn-small">Upload Image</a>
-										<a href="#" class="btn btn-small">remove profile picture</a>
-									</div>
-									<p class="small">
-										you can upldaod an image of maximume 5mb. will be
-										cropped to 128*128
-									</p>
+									<form action="{{ path_for("user.changeProfilePicture") }}" method="post"
+												enctype="multipart/form-data">
+										<div class="flex gap-1">
+											<input type="file" name="image" required>
+											<button class="btn btn-primary btn-small" type="submit">Upload Image</button>
+											{# <a href="#" class="btn btn-small">remove profile picture</a> #}
+										</div>
+										<p class="small">
+											you can upldaod an image of maximume 5mb. will be
+											cropped to 128*128
+										</p>
+									</form>
 								</div>
 							</div>
 						</div>

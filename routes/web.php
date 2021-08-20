@@ -3,6 +3,7 @@
 use App\Auth\Auth;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\RegisterController;
+use App\Controllers\FileController;
 use App\Controllers\HomeController;
 use App\Controllers\LanguageController;
 use App\Controllers\UserController;
@@ -52,6 +53,9 @@ $app->group("", function (App $app) {
 
 	$app->post("/user/change-picture", UserController::class . ":changeProfilePicture")
 		->setName("user.changeProfilePicture");
+
+	$app->get("/img/{username}/{name}", FileController::class . ":getImage" )
+		->setName("file.image");
 
 	// logout
 	$app->get("/auth/logout", function ($request, $response) {

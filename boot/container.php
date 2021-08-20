@@ -3,6 +3,8 @@
 use App\Core\TwigExtensions\CsrfExtension;
 use App\Core\TwigExtensions\LanguageExtension;
 use App\Lib\Hash;
+use App\Services\StorageService;
+use App\Services\UserService;
 use Awurth\SlimValidation\Validator;
 use Awurth\SlimValidation\ValidatorExtension;
 use Illuminate\Database\Capsule\Manager;
@@ -20,6 +22,11 @@ use App\Auth\Auth;
 
 $container = $app->getContainer();
 
+/**
+ * STORAGE DIR
+ */
+
+$container["storage_dir"] = $container["settings"]["upload_dir"];
 /**
  * DATABASE INITIALIZATION
  */
@@ -104,6 +111,16 @@ $container["auth"] = function ($container) {
  */
 $container["hash"] = function($container) {
 	return new Hash;
+};
+
+/**
+ * SERVICE CLASS
+ */
+$container[StorageService::class] = function ($container) {
+	return new StorageService($container);
+};
+$container[UserService::class] = function ($container) {
+	return new UserService($container);
 };
 
 /**

@@ -4,6 +4,7 @@
 namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
+use App\Models\Profile;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;

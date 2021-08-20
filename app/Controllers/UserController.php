@@ -6,19 +6,32 @@ use App\Auth\Auth;
 use App\Lib\Session;
 use App\Models\Profile;
 use App\Models\User;
+use App\Services\StorageService;
+use App\Services\UserService;
+use Psr\Container\ContainerInterface;
 use Respect\Validation\Validator as V;
+use Slim\Http\UploadedFile;
 
 class UserController extends BaseController
 {
 
+	private $userService;
+	public function __construct(ContainerInterface $container)
+	{
+		parent::__construct($container);
+		$this->userService = $container->get(UserService::class);
+	}
+
 	// GET /user[/] index page
-	public function index($request, $response) {
+	public function index($request, $response)
+	{
 		// @todo make a redirection to user connected user profile page
 		return $this->redirect($response, "user.profile");
 	}
 
 	// GET /user/{user_id} user profile page
-	public function profile($request, $response) {
+	public function profile($request, $response)
+	{
 		// @todo implement user profile page
 	}
 
@@ -45,6 +58,8 @@ class UserController extends BaseController
 			]
 		]);
 
+		var_dump($request->getParam("birth_date"));
+
 		if ($validator->isValid()) {
 
 			// update the user profile if not found , or create new one
@@ -61,13 +76,14 @@ class UserController extends BaseController
 
 
 	// POST /user/change-password
-	public function changePassword($request, $response){
+	public function changePassword($request, $response)
+	{
 		$validator = $this->validator->validate($request, [
 			"old_password" => V::notEmpty(),
 			"new_password" => V::notEmpty(),
 			"new_password_conf" => V::notEmpty()->equals($request->getParam("new_password"))
 		]);
-		if($validator->isValid()) {
+		if ($validator->isValid()) {
 			// update the auth user password with the new password
 			$user = $this->auth->user();
 			$password_hash = $this->hash->password($request->getParam("new_password"));
@@ -83,7 +99,27 @@ class UserController extends BaseController
 	}
 
 	// POST /user/change-picture
-	public function changeProfilePicture($request, $response){
-		// @todo implement changing and saving user profile picture
+	public function changeProfilePicture($request, $response)
+	{
+		$uploaded_img = $request->getUploadedFiles()["image"];
+		// @todo - implement image size image size validation
+		$imageValidation = $this->validator->object($uploaded_img, [
+			"file" => [
+				"rules" => V::image(),
+				"messages" => [
+					"image" => "Uploaded file must be an image",
+					"size" => "Image size must be greater then 5mb"
+				]
+			],
+		]);
+
+		if($imageValidation->isValid()) {
+			if ($uploaded_img->getError() === UPLOAD_ERR_OK) {
+				$this->userService->changeUserProfilePicture($uploaded_img, $this->auth->user());
+				return $this->redirect($response, "user.settings");
+			}
+		}
+		return $this->redirect($response, "user.settings");
 	}
+
 }

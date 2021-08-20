@@ -12,6 +12,7 @@ $dotenv->load();
 return [
     "settings" => [
         "displayErrorDetails" => $_ENV["APP_ENV"] == "development",
+		"upload_dir" => __DIR__ . "/../storage"
     ],
     "db" => [
         "driver" => $_ENV["DB_DRIVER"],

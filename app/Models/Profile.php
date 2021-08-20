@@ -15,7 +15,7 @@ class Profile extends Model
 		"birth_date",
 		"phone_number",
 		"email",
-		"img_url",
+		"picture",
 		"user_id",
 	];
 	public $timestamps = false;
@@ -27,13 +27,16 @@ class Profile extends Model
 
 	public static function updateProfileOrCreate($user_id, $request)
 	{
+		$birthDate = $request->getParam("birth_date");
+		$birthDate = empty($birthDate) ? null : $birthDate;
+
 		self::updateOrCreate(
 			["user_id" => $user_id],
 			[
 				"first_name" => $request->getParam("first_name"),
 				"last_name" => $request->getParam("last_name"),
 				"email" => $request->getParam("email"),
-				"birth_date"=> $request->getParam("birth_date"),
+				"birth_date"=> $birthDate,
 				"phone_number"=> $request->getParam("phone_number"),
 			]
 		);

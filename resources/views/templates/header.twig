@@ -31,7 +31,7 @@
 				<button class="dropdown__toggle">
 					<img
 						class="profile-image"
-						src="https://randomuser.me/api/portraits/men/61.jpg"
+						src="{{ path_for("file.image", { "name": auth.user.profile.picture, "username": auth.user.username }) }}"
 						alt="user profile"
 					/>
 				</button>
@@ -39,7 +39,7 @@
 					<div class="header__profile">
 						<img
 							class="header__profile-image"
-							src="https://randomuser.me/api/portraits/men/61.jpg"
+							src="{{ path_for("file.image", { "name": auth.user.profile.picture, "username": auth.user.username }) }}"
 							alt=""
 						/>
 						<div class="header__profile-text">

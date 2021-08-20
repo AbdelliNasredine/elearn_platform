@@ -32,12 +32,15 @@ class User extends Model
 	 */
 	public static function createNewUser($username, $password_hash)
 	{
-		self::create([
+		$user = self::create([
 			"username" => $username,
 			"password" => $password_hash,
 			"status" => self::ACTIVE,
 			"role_id" => Role::student()
 		]);
+
+		// init an empty profile
+		Profile::create(["user_id" => $user->id]);
 	}
 
 	/**
