@@ -10,6 +10,8 @@ class HomeController extends BaseController
 {
     public function index(Request $request, Response $response)
     {
+    	if($this->auth->user()->isAdmin())
+    		return $this->redirect($response, "admin.index");
     	return $this->view($response, "home.twig");
     }
 }

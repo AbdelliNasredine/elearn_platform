@@ -12,9 +12,11 @@
 					<li class="nav-tabs__item">
 						<button class="nav-tabs__link" data-tab-id="password">Security</button>
 					</li>
-					<li class="nav-tabs__item">
-						<button class="nav-tabs__link" data-tab-id="subscriptions">Subscriptions</button>
-					</li>
+					{% if auth.user.isStudent() %}
+						<li class="nav-tabs__item">
+							<button class="nav-tabs__link" data-tab-id="subscriptions">Subscriptions</button>
+						</li>
+					{% endif %}
 				</ul>
 				{# END TAB NAVIGATION #}
 
@@ -54,51 +56,53 @@
 							</div>
 						</div>
 						{# END CHANGE IMAGE FORM #}
-
-						<div class="mt-1">
-							{# suceess #}
-							{% if flash("success") %}
-								<div class="alert alert__success">
-									<span class="material-icons-round"> error </span>
-									{{ flash("success") | first }}
-								</div>
-							{% endif %}
-							{# START UPDATE PROFILE FORM #}
-							<form action="{{ path_for("user.editProfile") }}" method="post">
-								{{ csrf() | raw }}
-								<div class="flex gap-1">
-									<div class="field field-small">
-										<label class="label">First name *</label>
-										<input class="field__input" type="text" name="first_name" value="{{ profile.first_name }}"
-													 required/>
+						{% if auth.user.isStudent() %}
+							<div class="mt-1">
+								{# suceess #}
+								{% if flash("success") %}
+									<div class="alert alert__success">
+										<span class="material-icons-round"> error </span>
+										{{ flash("success") | first }}
 									</div>
-									<div class="field field-small">
-										<label class="label">Last name *</label>
-										<input class="field__input" type="text" name="last_name" value="{{ profile.last_name }}" required/>
+								{% endif %}
+								{# START UPDATE PROFILE FORM #}
+								<form action="{{ path_for("user.editProfile") }}" method="post">
+									{{ csrf() | raw }}
+									<div class="flex gap-1">
+										<div class="field field-small">
+											<label class="label">First name *</label>
+											<input class="field__input" type="text" name="first_name" value="{{ profile.first_name }}"
+														 required/>
+										</div>
+										<div class="field field-small">
+											<label class="label">Last name *</label>
+											<input class="field__input" type="text" name="last_name" value="{{ profile.last_name }}"
+														 required/>
+										</div>
 									</div>
-								</div>
-								<div class="flex gap-1">
-									<div class="field field-small">
-										<label class="label">Email Address *</label>
-										<input class="field__input" type="email" name="email" value="{{ profile.email }}" required/>
+									<div class="flex gap-1">
+										<div class="field field-small">
+											<label class="label">Email Address *</label>
+											<input class="field__input" type="email" name="email" value="{{ profile.email }}" required/>
+										</div>
 									</div>
-								</div>
-								<div class="flex gap-1">
-									<div class="field field-small">
-										<label class="label">Date of birth</label>
-										<input class="field__input" type="date" value="{{ profile.birth_date }}" name="birth_date">
+									<div class="flex gap-1">
+										<div class="field field-small">
+											<label class="label">Date of birth</label>
+											<input class="field__input" type="date" value="{{ profile.birth_date }}" name="birth_date">
+										</div>
+										<div class="field field-small">
+											<label class="label">Phone number</label>
+											<input class="field__input" type="tel" value="{{ profile.phone_number }}" name="phone_number"/>
+										</div>
 									</div>
-									<div class="field field-small">
-										<label class="label">Phone number</label>
-										<input class="field__input" type="tel" value="{{ profile.phone_number }}" name="phone_number"/>
-									</div>
-								</div>
-								<button class="btn btn-medium btn-primary" type="submit">
-									Save changes
-								</button>
-							</form>
-							{# END UPDATE PROFIL FORM #}
-						</div>
+									<button class="btn btn-medium btn-primary" type="submit">
+										Save changes
+									</button>
+								</form>
+								{# END UPDATE PROFIL FORM #}
+							</div>
+						{% endif %}
 					</div>
 					{# END TAB - ACCOUNT #}
 
@@ -141,16 +145,18 @@
 					{# END TAB - PASSWORD #}
 
 					{# START TAB - SUBCSRIPTION #}
-					<div class="tab w-4" id="subscriptions">
-						<h4>Subscription History</h4>
-						<p class="mb-2">
-							you can view all the subscription you have made
-						</p>
-						<a href="#" class="btn btn-full btn-medium btn-primary">
-							<span class="material-icons-round"> credit_card </span>
-							Start new subscription
-						</a>
-					</div>
+					{% if auth.user.isStudent() %}
+						<div class="tab w-4" id="subscriptions">
+							<h4>Subscription History</h4>
+							<p class="mb-2">
+								you can view all the subscription you have made
+							</p>
+							<a href="#" class="btn btn-full btn-medium btn-primary">
+								<span class="material-icons-round"> credit_card </span>
+								Start new subscription
+							</a>
+						</div>
+					{% endif %}
 					{# END TAB - SUBCSRIPTION #}
 
 				</div>

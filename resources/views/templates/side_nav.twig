@@ -2,30 +2,47 @@
 	<div class="nav-wrapper">
 		{# <div class="nav__title">Main Menu</div> #}
 		<ul class="nav-simple">
-			<li class="nav-simple__item has-dropdown">
-				<a href="#">
-					<span class="material-icons-round nav-simple__icon"> home </span>
-					<span class="nav-simple__text"> Dashboard </span>
-				</a>
-				<ul class="nav-simple__sublist">
-					<li class="nav-simple__subitem">
-						<a href="#">
-							<span class="nav-simple__text">statistique</span>
-						</a>
-					</li>
-					<li class="nav-simple__subitem">
-						<a href="#">
-							<span class="nav-simple__text">others</span>
-						</a>
-					</li>
-				</ul>
-			</li>
-			<li class="nav-simple__item">
-				<a href="#">
-					<span class="material-icons-round"> check </span>
-					<span class="nav-simple__text"> TD et excersice </span>
-				</a>
-			</li>
+			{# DASHBOARD LINK #}
+
+			{% if auth.user.isAdmin() %}
+				<li class="nav-simple__item">
+					<a href="{{ path_for("admin.index") }}">
+						<span class="material-icons-round nav-simple__icon"> home </span>
+						<span class="nav-simple__text"> Dashboard </span>
+					</a>
+				</li>
+				<li class="nav-simple__item">
+					<a href="#">
+						<span class="material-icons-round nav-simple__icon"> people </span>
+						<span class="nav-simple__text"> Users </span>
+					</a>
+				</li>
+				<li class="nav-simple__item">
+					<a href="{{ path_for("admin.roles") }}">
+						<span class="material-icons-round nav-simple__icon"> admin_panel_settings </span>
+						<span class="nav-simple__text"> Roles </span>
+					</a>
+				</li>
+			{% else %}
+				<li class="nav-simple__item">
+					<a href="{{ path_for("home") }}">
+						<span class="material-icons-round"> home </span>
+						<span class="nav-simple__text"> Home </span>
+					</a>
+				</li>
+				<li class="nav-simple__item">
+					<a href="#">
+						<span class="material-icons-round"> check </span>
+						<span class="nav-simple__text"> TD et excersice </span>
+					</a>
+				</li>
+				<li class="nav-simple__item">
+					<a href="#">
+						<span class="material-icons-round"> work </span>
+						<span class="nav-simple__text"> Jobs </span>
+					</a>
+				</li>
+			{% endif %}
 		</ul>
 	</div>
 </nav>

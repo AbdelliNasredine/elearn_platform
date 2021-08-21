@@ -1,0 +1,38 @@
+{% extends "templates/main.twig" %}
+{% block title %}
+	Admin dashboard - Roles
+{% endblock %}
+
+{% block main %}
+	<div class="container">
+		<h3>Manage Roles</h3>
+		<p>You can manage all possible roles you app users has</p>
+		<table>
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>name</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for role in roles %}
+					<tr>
+						<td>{{ role.id }}</td>
+						<td>{{ role.name }}</td>
+						<td>
+							<div class="flex gap-1">
+								<a href="#" class="btn btn-small btn-primary">
+									<span>edit</span>
+								</a>
+								<a href="#" class="btn btn-small btn-primary">
+									<span>delete</span>
+								</a>
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
