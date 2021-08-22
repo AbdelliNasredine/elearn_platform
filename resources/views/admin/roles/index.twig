@@ -5,34 +5,48 @@
 
 {% block main %}
 	<div class="container">
-		<h3>Manage Roles</h3>
-		<p>You can manage all possible roles you app users has</p>
-		<table>
-			<thead>
+		<div class="py-1">
+			<div class="flex i-center">
+				<div class="mb-1">
+					<h3 class="section__title">Manage Roles</h3>
+					<p class="section__sub">You can manage all possible roles you app users has</p>
+				</div>
+				<a href="{{ path_for("admin.addRole") }}" class="btn btn-primary btn-small" style="margin-left: auto">
+					<span class="material-icons-round">add</span>
+					Add new role
+				</a>
+			</div>
+			<table class="table">
+				<thead>
 				<tr>
-					<th>id</th>
 					<th>name</th>
 					<th>actions</th>
 				</tr>
-			</thead>
-			<tbody>
+				</thead>
+				<tbody>
 				{% for role in roles %}
 					<tr>
-						<td>{{ role.id }}</td>
-						<td>{{ role.name }}</td>
 						<td>
 							<div class="flex gap-1">
-								<a href="#" class="btn btn-small btn-primary">
-									<span>edit</span>
+								<span class="material-icons-round">group</span>
+								{{ role.name }}
+							</div>
+						</td>
+						<td>
+							<div class="flex gap-1">
+								<a href="#" class="btn btn-small btn-icon" data-tippy-content="Edit">
+									<span class="material-icons-round">edit</span>
 								</a>
-								<a href="#" class="btn btn-small btn-primary">
-									<span>delete</span>
+								<a href="#" class="btn btn-small btn-icon" data-tippy-content="Delete">
+									<span class="material-icons-round">delete</span>
 								</a>
 							</div>
 						</td>
 					</tr>
 				{% endfor %}
-			</tbody>
-		</table>
+				</tbody>
+			</table>
+		</div>
 	</div>
 {% endblock %}
+

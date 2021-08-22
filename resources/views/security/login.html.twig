@@ -32,38 +32,6 @@
 						<h3 class="display">{{ __("messages.login") }}</h3>
 						<p class="lead">{{ __("messages.fill_your_credentials") }}</p>
 
-						{% if flash("success") %}
-							<div class="alert alert__success">
-								<span class="material-icons-round"> check_circle </span>
-								{{ flash("success") | first }}
-							</div>
-						{% endif %}
-
-						{% if flash("error") %}
-							<div class="alert alert__error">
-								<span class="material-icons-round"> error </span>
-								{{ flash("error") | first }}
-							</div>
-						{% endif %}
-
-						{% if has_error("username") %}
-							<div class="alert alert__error">
-								<span class="material-icons-round"> error </span>
-								{% for error in errors("username") %}
-									{{ error }}
-								{% endfor %}
-							</div>
-						{% endif %}
-
-						{% if has_error("password") %}
-							<div class="alert alert__error">
-								<span class="material-icons-round"> error </span>
-								{% for error in errors("password") %}
-									{{ error }}
-								{% endfor %}
-							</div>
-						{% endif %}
-
 						<form action="{{ path_for("auth.login") }}" method="post">
 							{# Username field #}
 							<div class="field">

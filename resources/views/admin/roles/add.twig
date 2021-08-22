@@ -1,0 +1,29 @@
+{% extends "templates/main.twig" %}
+{% block title %}
+	Admin dashboard - Add New Role
+{% endblock %}
+
+{% block main %}
+	<div class="container">
+		<div class="section section-narrow">
+			<div class="py-1">
+				<div class="tabs-wrapper" style="background-color: white">
+					<div class="w-2">
+						<h4>Create new user role</h4>
+						<p class="mb-1">Please fill the new role name</p>
+						<form action="{{ path_for("admin.addRole") }}" method="post">
+							<div class="field field-small">
+								<label for="name">Role Name *</label>
+								<input class="field__input" type="text" name="name" value="{{ val("name") }}" id="name">
+								{% if has_error("name") %} <span class="field__error"> {{ error("name") }} </span> {% endif %}
+							</div>
+							<button class="btn btn-primary btn-medium" type="submit">
+								create
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

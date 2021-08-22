@@ -32,8 +32,22 @@
 {% block body %}{% endblock %}
 
 {# javascript files #}
+<script src="/js/main.bundle.js"></script>
+
+{# flash messages #}
+
+{% if flash("success") %}
+	<script>
+		new toast("{{ flash("success") | first }}", "success").show();
+	</script>
+{% endif %}
+{% if flash("error") %}
+	<script>
+		new toast("{{ flash("error") | first }}", "error").show();
+	</script>
+{% endif %}
+
 {% block js %}
-	<script src="/js/main.bundle.js"></script>
 {% endblock %}
 </body>
 </html>

@@ -16,6 +16,7 @@ class UserController extends BaseController
 {
 
 	private $userService;
+
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
@@ -84,13 +85,15 @@ class UserController extends BaseController
 			"new_password_conf" => V::notEmpty()->equals($request->getParam("new_password"))
 		]);
 		if ($validator->isValid()) {
-			// update the auth user password with the new password
+			// check if the current password is correct
 			$user = $this->auth->user();
-			$password_hash = $this->hash->password($request->getParam("new_password"));
-			$user->updatePassword($password_hash);
-
-			// redirect
-			$this->flash("success", "You password has been changed");
+			$new_password_hash = $this->hash->password($request->getParam("new_password"));
+			if ($new_password_hash === $user->password) {
+				$user->updatePassword($new_password_hash);
+				$this->flash("success", "You password has been changed");
+				return $this->redirect($response, "user.settings");
+			}
+			$this->flash("error", "Incorrect Password");
 			return $this->redirect($response, "user.settings");
 		}
 
@@ -113,7 +116,7 @@ class UserController extends BaseController
 			],
 		]);
 
-		if($imageValidation->isValid()) {
+		if ($imageValidation->isValid()) {
 			if ($uploaded_img->getError() === UPLOAD_ERR_OK) {
 				$this->userService->changeUserProfilePicture($uploaded_img, $this->auth->user());
 				return $this->redirect($response, "user.settings");

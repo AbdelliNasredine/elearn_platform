@@ -16,6 +16,6 @@ $app->group("/admin", function(App $app) {
 
 	// role management
 	$app->get("/roles", RoleController::class . ":show")->setName("admin.roles");
-	$app->post("/roles", RoleController::class . ":add")->setName("admin.addRole");
+	$app->map(["GET", "POST"], "/roles/add", RoleController::class . ":add")->setName("admin.addRole");
 
 })->add(new \App\Middlewares\AdminMiddleware($app->getContainer()));
