@@ -6,7 +6,7 @@ use App\Controllers\Auth\RegisterController;
 use App\Controllers\FileController;
 use App\Controllers\HomeController;
 use App\Controllers\LanguageController;
-use App\Controllers\UserController;
+use App\Controllers\ProfileController;
 use App\Lib\Session;
 use App\Middlewares\AuthMiddleware;
 use App\Middlewares\GuestMiddleware;
@@ -37,21 +37,21 @@ $app->group("", function (App $app) {
 	$app->get("/", HomeController::class . ":index")->setName("home");
 
 	// user routes
-	$app->get("/user", UserController::class . ":index");
+	$app->get("/user", ProfileController::class . ":index");
 
-	$app->get("/user/{user_id:[0-9]+}", UserController::class . ":profile")
+	$app->get("/user/{user_id:[0-9]+}", ProfileController::class . ":profile")
 		->setName("user.profile");
 
-	$app->get("/user/settings", UserController::class . ":settings")
+	$app->get("/user/settings", ProfileController::class . ":settings")
 		->setName("user.settings");
 
-	$app->post("/user/edit-profile", UserController::class . ":editProfile")
+	$app->post("/user/edit-profile", ProfileController::class . ":editProfile")
 		->setName("user.editProfile");
 
-	$app->post("/user/change-password", UserController::class . ":changePassword")
+	$app->post("/user/change-password", ProfileController::class . ":changePassword")
 		->setName("user.changePassword");
 
-	$app->post("/user/change-picture", UserController::class . ":changeProfilePicture")
+	$app->post("/user/change-picture", ProfileController::class . ":changeProfilePicture")
 		->setName("user.changeProfilePicture");
 
 	$app->get("/img/{username}/{name}", FileController::class . ":getImage" )

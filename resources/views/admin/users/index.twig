@@ -1,0 +1,75 @@
+{% extends "templates/main.twig" %}
+{% block title %}
+	Admin dashboard - Users Management
+{% endblock %}
+
+{% block main %}
+	<div class="container">
+		<div class="py-1">
+			<div class="flex i-center">
+				<div class="mb-1">
+					<h3 class="section__title">Manage Users</h3>
+					<p class="section__sub">You can manage all users of the app</p>
+				</div>
+				<a href="{{ path_for("admin.addUser") }}" class="btn btn-primary btn-small" style="margin-left: auto">
+					<span class="material-icons-round">add</span>
+					Add new user
+				</a>
+			</div>
+			<table class="table">
+				<thead>
+				<tr>
+					<th>username</th>
+					<th>Total points</th>
+					<th>last login</th>
+					<th>created at</th>
+					<th>updated at</th>
+					<th>actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for user in users %}
+					<tr>
+						<td>
+							<div class="flex gap-1">
+								<span class="material-icons-round">person</span>
+								<div class="flex">
+									{{ user.username }}
+									<span class="pill">
+										{{ user.role.name }}
+									</span>
+								</div>
+							</div>
+						</td>
+						<td>
+							{{ user.total_points }}
+						</td>
+						<td>
+							{% if user.last_login %}
+								{{ user.last_login | human_diff }}
+							{% else %}
+								Never login in
+							{% endif %}
+						</td>
+						<td>
+							{{ user.created_at | human_diff }}
+						</td>
+						<td>
+							{{ user.updated_at | human_diff }}
+						</td>
+						<td>
+							<div class="flex gap-1">
+								<a href="{{ path_for("admin.user", {"id": user.id }) }}" class="btn btn-small btn-icon"
+									 data-tippy-content="View">
+									<span class="material-icons-round">visibility</span>
+								</a>
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}
+

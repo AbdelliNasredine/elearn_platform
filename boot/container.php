@@ -1,6 +1,7 @@
 <?php
 
 use App\Core\TwigExtensions\CsrfExtension;
+use App\Core\TwigExtensions\DateExtension;
 use App\Core\TwigExtensions\LanguageExtension;
 use App\Lib\Hash;
 use App\Services\StorageService;
@@ -36,7 +37,7 @@ $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
 $container["db"] = function ($container) use ($capsule) {
-    return $capsule;
+	return $capsule;
 };
 
 /**
@@ -95,7 +96,7 @@ $container["view"] = function ($container) {
 	$view->addExtension(new CsrfExtension($container["csrf"]));
 	$view->addExtension(new LanguageExtension($container));
 	$view->addExtension(new ValidatorExtension($container['validator']));
-
+	$view->addExtension(new DateExtension());
     return $view;
 };
 

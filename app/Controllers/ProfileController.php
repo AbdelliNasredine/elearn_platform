@@ -12,7 +12,7 @@ use Psr\Container\ContainerInterface;
 use Respect\Validation\Validator as V;
 use Slim\Http\UploadedFile;
 
-class UserController extends BaseController
+class ProfileController extends BaseController
 {
 
 	private $userService;

@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class User extends Model
 {
@@ -21,7 +23,8 @@ class User extends Model
 		return $this->belongsTo(Role::class);
 	}
 
-	public function profile(){
+	public function profile()
+	{
 		return $this->hasOne(Profile::class);
 	}
 
@@ -30,13 +33,14 @@ class User extends Model
 	 * @param $username
 	 * @param $password_hash
 	 */
-	public static function createNewUser($username, $password_hash)
+	public static function createNewUser($username, $password_hash, $role_id = null)
 	{
+		$role_id = $role_id == null ? Role::student() : $role_id;
 		$user = self::create([
 			"username" => $username,
 			"password" => $password_hash,
 			"status" => self::ACTIVE,
-			"role_id" => Role::student()
+			"role_id" => $role_id
 		]);
 
 		// init an empty profile
@@ -53,28 +57,47 @@ class User extends Model
 		return self::where("username", $username)->first();
 	}
 
-	private function isRole($role){
+	public function updateInformation($request)
+	{
+		$this->total_points = $request->getParam("total_points");
+		$this->save();
+		$this->profile->update([
+			"first_name" => $request->getParam("first_name"),
+			"last_name" => $request->getParam("last_name"),
+			"email" => $request->getParam("email"),
+			"birth_date" => $request->getParam("birth_date"),
+			"phone_number" => $request->getParam("phone_number"),
+		]);
+	}
+
+	private function isRole($role)
+	{
 		return $this->role->name == $role;
 	}
 
-	public function isAdmin(){
+	public function isAdmin()
+	{
 		return $this->isRole(Role::ADMIN);
 	}
 
-	public function isStudent(){
+	public function isStudent()
+	{
 		return $this->isRole(Role::STUDENT);
 	}
 
-	public function isTeacher(){
+	public function isTeacher()
+	{
 		return $this->isRole(Role::TEACHER);
 	}
 
-	public function updateLastLogin() {
+	public function updateLastLogin()
+	{
 		$this->last_login = Carbon::now();
 		$this->save();
 	}
 
-	public function updatePassword($hash_password) {
+	public function updatePassword($hash_password)
+	{
 		$this->password = $hash_password;
 		$this->save();
 	}

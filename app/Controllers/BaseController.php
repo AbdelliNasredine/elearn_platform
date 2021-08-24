@@ -24,9 +24,9 @@ class BaseController
         return $this->view->render($response, $viewPath, $options);
     }
 
-	public function redirect($response , $path)
+	public function redirect($response , $path, $options = [])
 	{
-		return $response->withRedirect($this->router->pathFor($path));
+		return $response->withRedirect($this->router->pathFor($path, $options));
 	}
 
 	public function flash($type, $message)
