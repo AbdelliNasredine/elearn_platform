@@ -20,9 +20,15 @@ class LoginController extends BaseController
 
 	public function post(Request $request, Response $response)
 	{
-		$validator = $this->validator->validate($request, [
-			"username" => V::notBlank()->noWhitespace(),
-			"password" => V::notBlank(),
+		$validator = $this->validate($request, [
+			"username" => [
+				"rules" => V::notBlank()->noWhiteSpace(),
+				"message" => "Username must not contain whitespaces"
+			],
+			"password" => [
+				"rules" => V::notEmpty()->length(8),
+				"message" => "Password must be at least 8 characters long"
+			],
 		]);
 
 		if ($validator->isValid()) {
@@ -36,7 +42,7 @@ class LoginController extends BaseController
 			// error: user not found
 			if (!$user || !$this->hash->verifyPassword($password, $user->password)) {
 				// @todo implement i18n for flash messages
-				$this->flash("error", "User not found");
+				$this->flash("error", "Wrong username or password");
 				return $this->redirect($response, "auth.login");
 			}
 
@@ -52,7 +58,7 @@ class LoginController extends BaseController
 			}
 		}
 
+		$this->flash("validation", $this->getErrors($validator));
 		return $this->redirect($response, "auth.login");
-		$this->view($response, "security/login.html.twig");
 	}
 }

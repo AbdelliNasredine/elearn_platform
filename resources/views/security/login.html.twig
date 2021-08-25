@@ -32,6 +32,16 @@
 						<h3 class="display">{{ __("messages.login") }}</h3>
 						<p class="lead">{{ __("messages.fill_your_credentials") }}</p>
 
+						{% if flash("validation") %}
+							<div class="alert alert__error">
+								{% for validationError in flash("validation") %}
+									<p>
+										{{ validationError | first }}
+									</p>
+								{% endfor %}
+							</div>
+						{% endif %}
+
 						<form action="{{ path_for("auth.login") }}" method="post">
 							{# Username field #}
 							<div class="field">

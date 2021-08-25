@@ -22,9 +22,15 @@ class RegisterController extends BaseController
 		// @todo implement validation
 		// data filtering
 
-		$validator = $this->validator->validate($request, [
-			"username" => V::notBlank()->noWhiteSpace(),
-			"password" => V::notBlank()
+		$validator = $this->validate($request, [
+			"username" => [
+				"rules" => V::notBlank()->noWhiteSpace(),
+				"message" => "Username must not contain whitespaces"
+			],
+			"password" => [
+				"rules" => V::notEmpty()->length(8),
+				"message" => "Password must be at least 8 characters long"
+			],
 		]);
 
 		if($validator->isValid()) {
@@ -53,7 +59,7 @@ class RegisterController extends BaseController
 			return $this->redirect($response, "auth.login");
 		}
 
-		// validation error
-		$this->get($request, $response);
+		$this->flash("validation", $this->getErrors($validator));
+		return $this->redirect($response, "auth.register");
 	}
 }
