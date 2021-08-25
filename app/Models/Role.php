@@ -12,7 +12,7 @@ class Role extends Model
 	const ADMIN = "ADMIN";
 	const TEACHER = "TEACHER";
 
-	protected $table = "role";
+	protected $table = "roles";
 	public $timestamps = false;
 	protected $fillable = ["name"];
 

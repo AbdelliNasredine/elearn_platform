@@ -13,7 +13,7 @@ class User extends Model
 	const BLOCKED = "BLOCKED";
 	const ACTIVE = "ACTIVE";
 
-	protected $table = "user";
+	protected $table = "users";
 	protected $hidden = ["password", "role_id"];
 	protected $fillable = ["username", "password", "status", "role_id"];
 
