@@ -20,10 +20,10 @@
 				<thead>
 				<tr>
 					<th>username</th>
-					<th>Total points</th>
+					<th>Points</th>
 					<th>last login</th>
-					<th>created at</th>
-					<th>updated at</th>
+					<th>Registered since</th>
+					<th>status</th>
 					<th>actions</th>
 				</tr>
 				</thead>
@@ -42,7 +42,7 @@
 							</div>
 						</td>
 						<td>
-							{{ user.total_points }}
+							{{ user.total_points ~ " Point" ~ (user.total_points > 1 ? "s" : "") }}
 						</td>
 						<td>
 							{% if user.last_login %}
@@ -55,13 +55,14 @@
 							{{ user.created_at | human_diff }}
 						</td>
 						<td>
-							{{ user.updated_at | human_diff }}
+							{{ user.status }}
 						</td>
 						<td>
 							<div class="flex gap-1">
 								<a href="{{ path_for("admin.user", {"id": user.id }) }}" class="btn btn-small btn-icon"
-									 data-tippy-content="View">
+									 data-tippy-content="Edit account information">
 									<span class="material-icons-round">visibility</span>
+									edit
 								</a>
 							</div>
 						</td>

@@ -26,4 +26,5 @@ $app->group("/admin", function (App $app) {
 	$app->get("/roles", RoleController::class . ":show")->setName("admin.roles");
 	$app->map(["GET", "POST"], "/roles/add", RoleController::class . ":add")->setName("admin.addRole");
 
+
 })->add(new \App\Middlewares\AdminMiddleware($app->getContainer()));

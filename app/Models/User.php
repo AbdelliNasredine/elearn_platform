@@ -61,13 +61,7 @@ class User extends Model
 	{
 		$this->total_points = $request->getParam("total_points");
 		$this->save();
-		$this->profile->update([
-			"first_name" => $request->getParam("first_name"),
-			"last_name" => $request->getParam("last_name"),
-			"email" => $request->getParam("email"),
-			"birth_date" => $request->getParam("birth_date"),
-			"phone_number" => $request->getParam("phone_number"),
-		]);
+		Profile::updateProfileOrCreate($this->id, $request);
 	}
 
 	private function isRole($role)
