@@ -37,22 +37,21 @@ $app->group("", function (App $app) {
 	$app->get("/", HomeController::class . ":index")->setName("home");
 
 	// user routes
-	$app->get("/user", ProfileController::class . ":index");
-
-	$app->get("/user/{user_id:[0-9]+}", ProfileController::class . ":profile")
+	$app->get("/user/{id:[0-9]+}", ProfileController::class . ":index")
 		->setName("user.profile");
+
+	$app->map(["GET", "POST"], "/user/{id:[0-9]+}/edit", ProfileController::class . ":editProfile")
+		->setName("user.editProfile");
+
+	$app->post("/user/change-picture", ProfileController::class . ":changeProfilePicture")
+		->setName("user.changeProfilePicture");
 
 	$app->get("/user/settings", ProfileController::class . ":settings")
 		->setName("user.settings");
 
-	$app->post("/user/edit-profile", ProfileController::class . ":editProfile")
-		->setName("user.editProfile");
-
-	$app->post("/user/change-password", ProfileController::class . ":changePassword")
+	$app->post("/user/settings/change-password", ProfileController::class . ":changePassword")
 		->setName("user.changePassword");
 
-	$app->post("/user/change-picture", ProfileController::class . ":changeProfilePicture")
-		->setName("user.changeProfilePicture");
 
 	$app->get("/img/{username}/{name}", FileController::class . ":getImage" )
 		->setName("file.image");

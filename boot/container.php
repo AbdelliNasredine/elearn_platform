@@ -135,3 +135,7 @@ $container["notFoundHandler"] = function ($container) {
     return new App\Errors\NotFoundHandler($container);
 };
 
+$container["notAllowedHandler"] = function ($container) {
+	return new \App\Errors\NotAllowedHandler($container);
+};
+

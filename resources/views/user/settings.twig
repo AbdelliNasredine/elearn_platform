@@ -1,0 +1,189 @@
+{% extends "templates/main.twig" %}
+{% block main %}
+	<div class="container-narrow">
+		<div class="flex i-center j-between py-2">
+			<div>
+				<ol class="breadcrumb">
+					<li class="breadcrumb__item">
+						<a href="#">
+							<span class="material-icons-round">home</span>
+						</a>
+					</li>
+					<li class="breadcrumb__item">
+						users
+					</li>
+					<li class="breadcrumb__item">
+						<a href="#">
+							{{ auth.user.username }}
+						</a>
+					</li>
+					<li class="breadcrumb__item">
+						Settings
+					</li>
+				</ol>
+				<h1>User Settings</h1>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card__body">
+				<h3 class="card__title">User settings</h3>
+			</div>
+		</div>
+	</div>
+	{# <div class="row"> #}
+	{# <div class="col"> #}
+	{# #}{# START TAB NAVIGATION #}
+	{# <ul class="nav nav-tabs"> #}
+	{# <li class="nav-tabs__item"> #}
+	{# <button class="nav-tabs__link active" data-tab-id="account">Account settings</button> #}
+	{# </li> #}
+	{# <li class="nav-tabs__item"> #}
+	{# <button class="nav-tabs__link" data-tab-id="password">Security</button> #}
+	{# </li> #}
+	{# {% if auth.user.isStudent() %} #}
+	{# <li class="nav-tabs__item"> #}
+	{# <button class="nav-tabs__link" data-tab-id="subscriptions">Subscriptions</button> #}
+	{# </li> #}
+	{# {% endif %} #}
+	{# </ul> #}
+	{# #}{# END TAB NAVIGATION #}
+
+	{# #}{# START TAB WRAPPER #}
+	{# <div class="tabs-wrapper card-muted"> #}
+	{# #}{# START TAB - ACCOUNT #}
+	{# <div class="tab w-4 active" id="account"> #}
+	{# <h4 class="mb-1">Personal Details</h4> #}
+	{# #}{# START CHANGE IMAGE FORM #}
+	{# <div class="field"> #}
+	{# <label class="label">Profile Picture</label> #}
+	{# <div class="flex gap-2 i-center py-1 px-1 border"> #}
+	{# <img #}
+	{# style="width: 64px; height: 64px; border-radius: 50%" #}
+	{# src="{{ path_for("file.image", { "name" : auth.user.profile.picture , "username": auth.user.username }) }}" #}
+	{# alt="" #}
+	{# /> #}
+	{# <div class="flex col"> #}
+	{# <form action="{{ path_for("user.changeProfilePicture") }}" method="post" #}
+	{# enctype="multipart/form-data"> #}
+	{# <div class="flex gap-1"> #}
+	{# <input type="file" name="image" required> #}
+	{# <button class="btn btn-filled btn-primary btn-small" type="submit">Upload Image</button> #}
+	{# #}{# <a href="#" class="btn btn-small">remove profile picture</a> #}
+	{# </div> #}
+	{# <p class="small"> #}
+	{# You can upldaod an image of maximume 5mb. will be #}
+	{# cropped to 128*128 #}
+	{# </p> #}
+	{# </form> #}
+	{# </div> #}
+	{# </div> #}
+	{# </div> #}
+	{# #}{# END CHANGE IMAGE FORM #}
+	{# {% if auth.user.isStudent() %} #}
+	{# <div class="mt-1"> #}
+	{# #}{# suceess #}
+	{# {% if flash("success") %} #}
+	{# <div class="alert alert__success"> #}
+	{# <span class="material-icons-round"> error </span> #}
+	{# {{ flash("success") | first }} #}
+	{# </div> #}
+	{# {% endif %} #}
+	{# #}{# START UPDATE PROFILE FORM #}
+	{# <form action="{{ path_for("user.editProfile") }}" method="post"> #}
+	{# {{ csrf() | raw }} #}
+	{# <div class="flex gap-1"> #}
+	{# <div class="field field-small"> #}
+	{# <label class="label">First name *</label> #}
+	{# <input class="field__input" type="text" name="first_name" value="{{ profile.first_name }}" #}
+	{# required/> #}
+	{# </div> #}
+	{# <div class="field field-small"> #}
+	{# <label class="label">Last name *</label> #}
+	{# <input class="field__input" type="text" name="last_name" value="{{ profile.last_name }}" #}
+	{# required/> #}
+	{# </div> #}
+	{# </div> #}
+	{# <div class="flex gap-1"> #}
+	{# <div class="field field-small"> #}
+	{# <label class="label">Email Address *</label> #}
+	{# <input class="field__input" type="email" name="email" value="{{ profile.email }}" required/> #}
+	{# </div> #}
+	{# </div> #}
+	{# <div class="flex gap-1"> #}
+	{# <div class="field field-small"> #}
+	{# <label class="label">Date of birth</label> #}
+	{# <input class="field__input" type="date" value="{{ profile.birth_date }}" name="birth_date"> #}
+	{# </div> #}
+	{# <div class="field field-small"> #}
+	{# <label class="label">Phone number</label> #}
+	{# <input class="field__input" type="tel" value="{{ profile.phone_number }}" name="phone_number"/> #}
+	{# </div> #}
+	{# </div> #}
+	{# <button class="btn btn-medium btn-primary" type="submit"> #}
+	{# Save changes #}
+	{# </button> #}
+	{# </form> #}
+	{# #}{# END UPDATE PROFIL FORM #}
+	{# </div> #}
+	{# {% endif %} #}
+	{# </div> #}
+	{# #}{# END TAB - ACCOUNT #}
+
+	{# #}{# START TAB - PASSWORD #}
+	{# <div class="tab w-3" id="password"> #}
+	{# <h4 class="mb-1">Change Password</h4> #}
+	{# <p class="mb-2"> #}
+	{# Its not a bad idea to change you password often for more #}
+	{# secure account, we recommend that you set a strong #}
+	{# password thats is at least 8 characters long and #}
+	{# includes a mix of letters, numbers and symbols. #}
+	{# </p> #}
+	{# <div class="mt-2"> #}
+	{# {% if flash("success") %} #}
+	{# <div class="alert alert__success"> #}
+	{# <span class="material-icons-round"> error </span> #}
+	{# {{ flash("success") | first }} #}
+	{# </div> #}
+	{# {% endif %} #}
+	{# <form action="{{ path_for("user.changePassword") }}" method="post"> #}
+	{# {{ csrf() | raw }} #}
+	{# <div class="field field-small"> #}
+	{# <label>Current Password</label> #}
+	{# <input class="field__input" type="password" name="old_password" required/> #}
+	{# </div> #}
+	{# <div class="field field-small"> #}
+	{# <label>New Password</label> #}
+	{# <input class="field__input" type="password" name="new_password" required/> #}
+	{# </div> #}
+	{# <div class="field field-small"> #}
+	{# <label>New Password (Confirmation)</label> #}
+	{# <input class="field__input" type="password" name="new_password_conf" required/> #}
+	{# </div> #}
+	{# <button class="btn btn-filled btn-primary"> #}
+	{# Save changes #}
+	{# </button> #}
+	{# </form> #}
+	{# </div> #}
+	{# </div> #}
+	{# #}{# END TAB - PASSWORD #}
+
+	{# #}{# START TAB - SUBCSRIPTION #}
+	{# {% if auth.user.isStudent() %} #}
+	{# <div class="tab w-4" id="subscriptions"> #}
+	{# <h4>Subscription History</h4> #}
+	{# <p class="mb-2"> #}
+	{# you can view all the subscription you have made #}
+	{# </p> #}
+	{# <a href="#" class="btn btn-full btn-medium btn-primary"> #}
+	{# <span class="material-icons-round"> credit_card </span> #}
+	{# Start new subscription #}
+	{# </a> #}
+	{# </div> #}
+	{# {% endif %} #}
+	{# #}{# END TAB - SUBCSRIPTION #}
+
+	{# </div> #}
+	{# #}{# END TAB WRAPPER #}
+	{# </div> #}
+	{# </div> #}
+{% endblock %}

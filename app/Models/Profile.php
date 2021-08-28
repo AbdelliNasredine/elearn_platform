@@ -25,18 +25,14 @@ class Profile extends Model
 		return $this->belongsTo(User::class);
 	}
 
-	public static function updateProfileOrCreate($user_id, $request)
+	public static function updateProfile($user_id, $request)
 	{
-		$birthDate = $request->getParam("birth_date");
-		$birthDate = empty($birthDate) ? null : $birthDate;
 
 		self::updateOrCreate(
 			["user_id" => $user_id],
 			[
 				"first_name" => $request->getParam("first_name"),
 				"last_name" => $request->getParam("last_name"),
-				"email" => $request->getParam("email"),
-				"birth_date"=> $birthDate,
 				"phone_number"=> $request->getParam("phone_number"),
 			]
 		);

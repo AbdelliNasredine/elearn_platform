@@ -5,7 +5,7 @@
 {% block body %}
 	<div class="login-container">
 		<div class="row">
-			<div class="col-6" style="background-color: var(--green)">
+			<div class="col-8" style="background-color: var(--green)">
 				<div class="container">
 					<div class="hero">
 						<h1 class="display">{{ __("messages.welcome") }}</h1>
@@ -17,7 +17,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-6">
+			<div class="col-4">
 				<div class="container">
 					<div class="login-wrapper">
 						<h3 class="display">{{ __("messages.registration") }}</h3>
@@ -53,7 +53,10 @@
 
 							{# Login Button #}
 							<div class="field">
-								<button class="btn btn-full btn-primary" type="submit">{{ __("messages.registration") }}</button>
+								<button class="btn btn-filled btn-primary" type="submit">
+									<span class="material-icons-round">login</span>
+									{{ __("messages.registration") }}
+								</button>
 							</div>
 
 							{{ csrf() | raw }}
@@ -71,7 +74,7 @@
 
 						{# langauge switcher #}
 						<button
-							class="btn btn-small btn-outline modal-toggle"
+							class="btn btn-border-secondary modal-toggle"
 							data-model-id="language_model">
 							<span class="material-icons-round"> language </span>
 							language

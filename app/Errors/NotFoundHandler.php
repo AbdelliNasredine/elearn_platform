@@ -11,6 +11,6 @@ class NotFoundHandler extends ErrorHandler
 {
     public function __invoke(Request $request, Response $response): Response
     {
-        return $this->render($response, "Page Not Found", 404);
+        return $this->render($response, "errors/404.twig", 404);
     }
 }

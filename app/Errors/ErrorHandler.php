@@ -15,7 +15,7 @@ class ErrorHandler
         $this->view = $this->container->view;
     }
 
-    public function render($response, $message, $status) {
-        return $this->view->render($response->withStatus($status), "errors/error.twig", ["message" => $message]);
+    public function render($response, $view , $status) {
+        return $this->view->render($response->withStatus($status), $view);
     }
 }

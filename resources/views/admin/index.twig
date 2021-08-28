@@ -4,8 +4,22 @@
 {% endblock %}
 
 {% block main %}
-	<div class="container">
-		<h1>Welcome {{ auth.user.username }}</h1>
-		<p>Admin Dashboard</p>
+	<div class="container-narrow">
+		<div class="flex i-center j-between py-2">
+			<div>
+				<ol class="breadcrumb">
+					<li class="breadcrumb__item">
+						<a href="#">
+							<span class="material-icons-round">home</span>
+						</a>
+					</li>
+					<li class="breadcrumb__item">
+						dashboard
+					</li>
+				</ol>
+				<h1>Dashboard</h1>
+			</div>
+		</div>
+		<div class="section__divider"></div>
 	</div>
 {% endblock %}

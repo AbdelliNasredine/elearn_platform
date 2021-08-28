@@ -10,6 +10,10 @@ use App\Services\StorageService;
 use App\Services\UserService;
 use Psr\Container\ContainerInterface;
 use Respect\Validation\Validator as V;
+use Slim\Exception\MethodNotAllowedException;
+use Slim\Exception\NotFoundException;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Slim\Http\UploadedFile;
 
 class ProfileController extends BaseController
@@ -23,56 +27,67 @@ class ProfileController extends BaseController
 		$this->userService = $container->get(UserService::class);
 	}
 
-	// GET /user[/] index page
-	public function index($request, $response)
+	// GET /user/{user_id} user profile page
+	public function index(Request $request, Response $response, $args)
 	{
-		// @todo make a redirection to user connected user profile page
-		return $this->redirect($response, "user.profile");
+		$user_id = $args["id"];
+		$idValidator = $this->validator->value($user_id, V::notEmpty()->numeric(), "user_id");
+		if ($idValidator->isValid()) {
+			$user = User::find($user_id);
+			if (!$user) throw new NotFoundException($request, $response);
+			return $this->view($response, "user/profile.twig", ["user" => $user]);
+		}
+		// error : no user with this id
+		throw new NotFoundException($request, $response);
 	}
 
-	// GET /user/{user_id} user profile page
-	public function profile($request, $response)
-	{
-		// @todo implement user profile page
-	}
 
 	// GET /user/settings user settings page
-	public function settings($request, $response)
+	public function settings(Request $request, Response $response)
 	{
 		// ge the user profile
 		$user_profile = $this->auth->user()->profile;
-		return $this->view($response, "user/settings/index.twig", ["profile" => $user_profile]);
+		return $this->view($response, "user/settings.twig", ["profile" => $user_profile]);
 	}
 
-	// POST /user/edit-profile edit user profile
-	public function editProfile($request, $response)
+	// [GET, POST] /user/edit-profile edit user profile
+	public function editProfile(Request $request, Response $response, $args)
 	{
-		// validating required fields
-		$validator = $this->validator->validate($request, [
-			"first_name" => V::notEmpty(),
-			"last_name" => V::notEmpty(),
-			"email" => V::email()->notEmpty(),
-			"birth_date" => V::optional(V::date()),
-			"phone_number" => [
-				"rules" => V::optional(V::digit()->length(10, 10, true)),
-				"message" => "Not a valid phone number"
-			]
-		]);
 
-		var_dump($request->getParam("birth_date"));
+		// check permissions , if the auth user id is equal
+		// to $args["id"] meaning
 
+		// @todo refactor into one middleware
+		$user_id = $args["id"];
+		if ($user_id != $this->auth->user()->id) {
+			throw new MethodNotAllowedException($request, $response, []);
+		}
+
+		if ($request->isGet()) {
+			return $this->view($response, "user/edit_profile.twig");
+		}
+		if ($request->isPost()) {
+			// validating required fields
+			$validator = $this->validator->validate($request, [
+				"first_name" => V::notEmpty(),
+				"last_name" => V::notEmpty(),
+				"phone_number" => [
+					"rules" => V::optional(V::digit()->length(10, 10, true)),
+					"message" => "Not a valid phone number"
+				]
+			]);
+		}
 		if ($validator->isValid()) {
 
 			// update the user profile if not found , or create new one
-			$user_id = $this->auth->user()->id;
-			Profile::updateProfileOrCreate($user_id, $request);
+			Profile::updateProfile($user_id, $request);
 
-			$this->flash("success", "Your profile has successfully been updated");
-			return $this->redirect($response, "user.settings");
+			$this->flash("success", "Your profile has been updated");
+			return $this->redirect($response, "user.profile", ["id" => $user_id]);
 		}
 
 		// @todo set validation error into flash
-		return $this->redirect($response, "user.settings");
+		return $this->redirect($response, "user.profile" , ["id" => $user_id]);
 	}
 
 

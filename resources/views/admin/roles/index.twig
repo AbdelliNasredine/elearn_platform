@@ -4,40 +4,48 @@
 {% endblock %}
 
 {% block main %}
-	<div class="container">
-		<div class="py-1">
-			<div class="flex i-center">
-				<div class="mb-1">
-					<h3 class="section__title">Manage Roles</h3>
-					<p class="section__sub">You can manage all possible roles you app users has</p>
-				</div>
-				<a href="{{ path_for("admin.addRole") }}" class="btn btn-primary btn-small" style="margin-left: auto">
-					<span class="material-icons-round">add</span>
-					Add new role
-				</a>
+	<div class="container-narrow">
+		<div class="flex j-between i-center py-2">
+			<div>
+				<ol class="breadcrumb">
+					<li class="breadcrumb__item">
+						<a href="{{ path_for("home") }}">
+							<span class="material-icons-round">home</span>
+						</a>
+					</li>
+					<li class="breadcrumb__item">
+						Role Management
+					</li>
+				</ol>
+				<h1>Manage Roles</h1>
 			</div>
-			<table class="table">
+			<a href="{{ path_for("admin.addRole") }}" class="btn btn-filled btn-secondary">
+				<span class="material-icons-round">add</span>
+				add new role
+			</a>
+		</div>
+			<table class="table card-muted">
 				<thead>
 				<tr>
-					<th>name</th>
+					<th>Role Name</th>
 					<th>actions</th>
 				</tr>
 				</thead>
 				<tbody>
 				{% for role in roles %}
 					<tr>
-						<td>
+						<td style="width: 70%">
 							<div class="flex gap-1">
 								<span class="material-icons-round">group</span>
 								{{ role.name }}
 							</div>
 						</td>
 						<td>
-							<div class="flex gap-1">
-								<a href="#" class="btn btn-small btn-icon" data-tippy-content="Edit">
+							<div class="btn-group">
+								<a href="#" class="btn-icon btn-border-primary btn-circle" data-tippy-content="Edit">
 									<span class="material-icons-round">edit</span>
 								</a>
-								<a href="#" class="btn btn-small btn-icon" data-tippy-content="Delete">
+								<a href="#" class="btn-icon btn-border-primary btn-circle" data-tippy-content="Delete">
 									<span class="material-icons-round">delete</span>
 								</a>
 							</div>

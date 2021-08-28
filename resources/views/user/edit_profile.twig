@@ -1,0 +1,75 @@
+{% extends "templates/main.twig" %}
+{% block title %}Edit Profile Page{% endblock %}
+{% block main %}
+	<div class="container-narrow">
+		<div class="py-2">
+			<ol class="breadcrumb">
+				<li class="breadcrumb__item">
+					<a href="{{ path_for("home") }}">
+						<span class="material-icons-round">home</span>
+					</a>
+				</li>
+				<li class="breadcrumb__item">
+					<a href="{{ path_for("user.profile", {"id": auth.user.id}) }}">
+						{{ auth.user.username }}
+					</a>
+				</li>
+				<li class="breadcrumb__item">
+					edit
+				</li>
+			</ol>
+			<h1>Edit Profile</h1>
+		</div>
+		<div class="card card-muted">
+			<div class="card__body">
+				<div class="mb-2">
+					<h3 class="mb-1">Photo</h3>
+					<div class="flex gap-1 i-center">
+						<div class="card-muted"
+								 style="width: 96px; height: 96px; background-color: #7e8fa1; border-radius: 50%"></div>
+						<form action="" enctype="multipart/form-data">
+							<input type="file" required>
+							<button type="submit" class="btn btn-border-primary">
+								change profile picture
+							</button>
+						</form>
+					</div>
+				</div>
+				<div class="mb-2 w-3">
+					<h3>About me</h3>
+					<p class="mb-1">Tell us about yourself</p>
+					<form action="{{ path_for("user.editProfile" , { "id" :  auth.user.id }) }}" method="post">
+						{{ csrf() | raw }}
+						<div class="flex gap-1">
+							<div class="field field-small">
+								<label for="first_name">First Name</label>
+								<input class="field__input" id="first_name" type="text" name="first_name" value="{{ auth.user.profile.first_name }}">
+							</div>
+							<div class="field field-small">
+								<label for="last_name">Last Name</label>
+								<input class="field__input" id="last_name" type="text" name="last_name" value="{{ auth.user.profile.last_name }}">
+							</div>
+						</div>
+						<div class="flex gap-1">
+							<div>
+								<label>
+									Date of Birth
+								</label>
+								<div class="js-field-dob" data-value="{{ auth.user.profile.birth_date }}"></div>
+							</div>
+							<div class="field field-small">
+								<label for="first_name">Phone Number</label>
+								<input class="field__input" id="first_name" type="tel" name="phone_number" value="{{ auth.user.profile.phone_number }}">
+							</div>
+						</div>
+						<button class="btn btn-filled btn-primary">
+							<span class="material-icons-round">edit</span>
+							edit
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+{% endblock %}

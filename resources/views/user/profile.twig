@@ -1,0 +1,81 @@
+{% extends "templates/main.twig" %}
+{% block title %} Admin Dashboard - User {% endblock %}
+{% block main %}
+	<div class="container-narrow">
+		<div class="flex i-center j-between py-2">
+			<div>
+				<ol class="breadcrumb">
+					<li class="breadcrumb__item">
+						<a href="{{ path_for("home") }}">
+							<span class="material-icons-round">home</span>
+						</a>
+					</li>
+					<li class="breadcrumb__item">
+						{{ user.username }}
+					</li>
+				</ol>
+				<h1>Profile</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<div class="card card-muted card-profile">
+					<div class="card__image">
+						<button class="btn-icon btn-circle btn-text absolute top-right">
+							<span class="material-icons-round">photo_camera</span>
+						</button>
+					</div>
+					<div class="card__body">
+						<img class="card-profile__image" src="https://randomuser.me/api/portraits/men/74.jpg" alt="profile picture">
+						{% if auth.user.id == user.id %}
+							<div class="btn-group absolute top-right p-1">
+								<a href="{{ path_for("user.editProfile", {"id": auth.user.id}) }}" class="btn btn-filled btn-primary">
+									<span class="material-icons-round">edit</span>
+									Edit
+								</a>
+							</div>
+						{% endif %}
+						<h2 class="card__title">
+							{% if user.profile.first_name %}
+								{{ user.profile.first_name }} {{ user.profile.last_name }}
+							{% else %}
+								@{{ user.username }}
+							{% endif %}
+						</h2>
+						<p class="card__text">
+							{{ user.role.name | capitalize }}
+						</p>
+					</div>
+				</div>
+			</div>
+{# <div class="col-4"> #}
+			{# <div class="card card-muted"> #}
+			{# <div class="card__body"> #}
+			{# <h3 class="mb-1">About me</h3> #}
+			{# <div class="flex j-between i-center"> #}
+			{# <ul> #}
+			{# {% if user.profile.phone_number %} #}
+			{# <li class="flex gap-1"> #}
+			{# <span class="material-icons-round mb-1">phone</span> #}
+			{# {{ user.profile.phone_number }} #}
+			{# </li> #}
+			{# {% endif %} #}
+			{# {% if user.profile.birdth_date %} #}
+			{# <li class="flex gap-1"> #}
+			{# <span class="material-icons-round">calendar_today</span> #}
+			{# {{ user.profile.birdth_date }} #}
+			{# </li> #}
+			{# {% endif %} #}
+			{# </ul> #}
+			{# #}{# <div class="flex gap-1 border p-1"> #}
+			{# #}{# <span class="material-icons-round">monetization_on</span> #}
+			{# #}{# {{ user.total_points }} Points #}
+			{# #}{# </div> #}
+			{# </div> #}
+			{# </div> #}
+			{# </div> #}
+			{# </div>#}
+		</div>
+	</div>
+{% endblock %}
+

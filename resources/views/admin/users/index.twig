@@ -4,72 +4,105 @@
 {% endblock %}
 
 {% block main %}
-	<div class="container">
-		<div class="py-1">
-			<div class="flex i-center">
-				<div class="mb-1">
-					<h3 class="section__title">Manage Users</h3>
-					<p class="section__sub">You can manage all users of the app</p>
-				</div>
-				<a href="{{ path_for("admin.addUser") }}" class="btn btn-primary btn-small" style="margin-left: auto">
-					<span class="material-icons-round">add</span>
-					Add new user
-				</a>
+	<div class="container-narrow">
+		<div class="flex i-center j-between py-2">
+			<div>
+				<ol class="breadcrumb">
+					<li class="breadcrumb__item">
+						<a href="{{ path_for("home") }}"><span class="material-icons-round">home</span></a>
+					</li>
+					<li class="breadcrumb__item">User Management</li>
+				</ol>
+				<h1>Manage Users</h1>
 			</div>
-			<table class="table">
-				<thead>
+			<a href="{{ path_for("admin.addUser") }}" class="btn btn-filled btn-secondary">
+				<span class="material-icons-round">add</span>
+				Add new user
+			</a>
+		</div>
+		<table class="table card-muted">
+			<thead>
 				<tr>
-					<th>username</th>
+					<th>ID</th>
+					<th colspan="2">username</th>
 					<th>Points</th>
 					<th>last login</th>
 					<th>Registered since</th>
 					<th>status</th>
 					<th>actions</th>
 				</tr>
-				</thead>
-				<tbody>
-				{% for user in users %}
-					<tr>
-						<td>
-							<div class="flex gap-1">
-								<span class="material-icons-round">person</span>
-								<div class="flex">
-									{{ user.username }}
-									<span class="pill">
+			</thead>
+			<tbody>
+			{% for user in users %}
+				<tr>
+					<td>#{{ user.id }}</td>
+					<td colspan="2">
+						<div class="flex i-center gap-1">
+							<span class="material-icons-round">person</span>
+							<div class="flex col j-center">
+								<p>{{ user.username }}</p>
+								<span class="pill pill-primary">
 										{{ user.role.name }}
 									</span>
-								</div>
 							</div>
-						</td>
-						<td>
+						</div>
+					</td>
+					<td>
+						<small>
 							{{ user.total_points ~ " Point" ~ (user.total_points > 1 ? "s" : "") }}
-						</td>
-						<td>
+						</small>
+					</td>
+					<td>
+						<small>
 							{% if user.last_login %}
 								{{ user.last_login | human_diff }}
 							{% else %}
 								Never login in
 							{% endif %}
-						</td>
-						<td>
+						</small>
+					</td>
+					<td>
+						<small>
 							{{ user.created_at | human_diff }}
-						</td>
-						<td>
+						</small>
+					</td>
+					<td>
+						<small>
 							{{ user.status }}
-						</td>
-						<td>
-							<div class="flex gap-1">
-								<a href="{{ path_for("admin.user", {"id": user.id }) }}" class="btn btn-small btn-icon"
-									 data-tippy-content="Edit account information">
-									<span class="material-icons-round">visibility</span>
-									edit
-								</a>
-							</div>
-						</td>
-					</tr>
-				{% endfor %}
-				</tbody>
-			</table>
+						</small>
+					</td>
+					<td>
+						<div class="flex gap-1">
+							<a href="{{ path_for("user.profile", {"id": user.id }) }}" class="btn-icon btn-border-primary btn-circle"
+								 data-tippy-content="view profile">
+								<span class="material-icons-round">visibility</span>
+							</a>
+							<a href="{{ path_for("admin.editUser", {"id": user.id}) }}"
+								 class="btn-icon btn-border-primary btn-circle">
+								<span class="material-icons-round">edit</span>
+							</a>
+							<a href="#" class="btn-icon btn-border-primary btn-circle">
+								<span class="material-icons-round">delete</span>
+							</a>
+						</div>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+		<div class="py-1">
+			<div class="btn-group">
+				<a href="#" class="btn btn-icon btn-circle btn-text">
+					<span class="material-icons-round">arrow_back_ios</span>
+				</a>
+				<a href="#" class="btn-icon btn-circle">1</a>
+				<a href="#" class="btn-icon btn-circle">2</a>
+				<a href="#" class="btn-icon btn-circle">...</a>
+				<a href="#" class="btn-icon btn-circle">8</a>
+				<a href="#" class="btn btn-icon btn-circle btn-text">
+					<span class="material-icons-round">arrow_forward_ios</span>
+				</a>
+			</div>
 		</div>
 	</div>
 {% endblock %}
