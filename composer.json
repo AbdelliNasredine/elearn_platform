@@ -18,7 +18,8 @@
         "nesbot/carbon": "^2.51",
         "slim/csrf": "0.8.3",
         "illuminate/translation": "^8.54",
-        "awurth/slim-validation": "^3.3"
+        "awurth/slim-validation": "^3.3",
+      "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

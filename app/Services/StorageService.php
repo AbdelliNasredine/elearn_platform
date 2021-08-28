@@ -5,24 +5,37 @@ namespace App\Services;
 use App\Models\User;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\UploadedFileInterface;
+use Slim\Exception\SlimException;
 
-class StorageService extends Service implements StorageServiceInterface
+class StorageService implements StorageServiceInterface
 {
 
 	private $storage_dir;
 
 	public function __construct(ContainerInterface $container)
 	{
-		parent::__construct($container);
 		$this->storage_dir = $container->get("storage_dir");
 	}
 
-	public function moveFile($directory, UploadedFileInterface $file)
+	public function getExtension($filename)
 	{
-		$extension = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
+		return pathinfo($filename, PATHINFO_EXTENSION);
+	}
+
+	public function moveFile(UploadedFileInterface $file)
+	{
+		$extension = $this->getExtension($file->getClientFilename());
 		$basename = bin2hex(random_bytes(8));
 		$filename = sprintf('%s.%0.8s', $basename, $extension);
+		$directory = $this->storage_dir . DIRECTORY_SEPARATOR . $extension;
 
+		// check if extension directory exists, create it otherwise
+		if(!is_dir($directory)) {
+			$result = mkdir($directory);
+			if(!$result) throw new \Exception("Cannot create dir");
+		};
+
+		// move the file into storage
 		$file->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
 
 		return $filename;
@@ -30,25 +43,6 @@ class StorageService extends Service implements StorageServiceInterface
 
 	public function exists($filename)
 	{
-		// TODO: Implement exists() method.
-	}
-
-	public function mkdir()
-	{
-		// TODO: Implement mkdir() method.
-	}
-
-	public function getUserDirectory($username)
-	{
-		// check if user directory is found
-		// if not , create one
-		// else return dir path
-		$user_dir = $this->storage_dir . DIRECTORY_SEPARATOR . $username;
-		var_dump($user_dir);
-		if (is_dir($user_dir)) {
-
-			return $user_dir;
-		}
-		return !mkdir($user_dir) ? die("cannot create a directory") : $user_dir;
+		return file_exists($this->getExtension($filename));
 	}
 }

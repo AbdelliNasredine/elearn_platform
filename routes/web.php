@@ -56,6 +56,9 @@ $app->group("", function (App $app) {
 	$app->get("/img/{username}/{name}", FileController::class . ":getImage" )
 		->setName("file.image");
 
+	// file upload
+	$app->post("/upload", FileController::class . ":upload")->setName("file.upload");
+
 	// logout
 	$app->get("/auth/logout", function ($request, $response) {
 		Session::destroy(Auth::AUTH_ID_KEY);

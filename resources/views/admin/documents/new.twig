@@ -1,0 +1,149 @@
+{% extends "templates/main.twig" %}
+{% block title %}
+	Admin - create new learning content
+{% endblock %}
+{% block main %}
+	<div class="container-narrow">
+		<div class="py-2">
+			<ol class="breadcrumb">
+				<li class="breadcrumb__item">
+					<a href="{{ path_for("home") }}">
+						<span class="material-icons-round">home</span>
+					</a>
+				</li>
+				<li class="breadcrumb__item">
+					<a href="{{ path_for("admin.documents") }}">content management</a>
+				</li>
+				<li class="breadcrumb__item">
+					new
+				</li>
+			</ol>
+			<h1>Learning Content Creation</h1>
+		</div>
+	</div>
+	<div class="container-narrow">
+		<div class="card card-muted">
+			<div class="card__body">
+				<h3 class="mb-1">Learning Content creating form</h3>
+
+				<form action="{{ path_for("file.upload") }}" enctype="multipart/form-data" method="post" class="js-file-form">
+					{{ csrf() | raw }}
+					<label for="file" class="file__label">
+						<span class="material-icons-round">file_upload</span>
+						<span>Select file</span>
+						<span class="file__progress-bar"></span>
+{#						<span class="file__progress-spinner"></span>#}
+{#						<!-- <span class="material-icons-round file__progress-success">check_circle</span> -->#}
+					</label>
+					<input id="file" class="file__input" type="file" required />
+					<small>
+						Only pdf, doc, docx, png, jpeg are accepted files
+						(max. 20 MB in size)
+					</small>
+				</form>
+
+
+				<form style="display: none" action="" method="post">
+					<div class="field field-small">
+						<label class="label">What is the type of the learning content ?</label>
+						<div class="flex i-center gap-1">
+							<select style="display: block; width: 100%">
+								{% for documentType in documentTypes %}
+									<option value="{{ documentType.id }}">{{ documentType.type }}</option>
+								{% endfor %}
+							</select>
+							<button type="button" class="btn btn-border-secondary" data-tippy-content="Add new type">
+								<span class="material-icons-round">add</span>
+							</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<div class="field field-small">
+								<label class="label">University</label>
+								<input class="field__input" type="text">
+							</div>
+						</div>
+						<div class="col-4">
+							<div class="field field-small">
+								<label class="label">Subject</label>
+								<input class="field__input" type="text">
+							</div>
+						</div>
+					</div>
+					<div class="flex i-center gap-1">
+						<div class="field field-small">
+							<label class="label">Faculty name</label>
+							<select name="" style="display: block; width: 100%">
+								<option value="L">Licence</option>
+								<option value="M">Master</option>
+								<option value="D">Doctorate</option>
+							</select>
+						</div>
+						<div class="field field-small">
+							<label class="label">Speciality</label>
+							<select name="" style="display: block; width: 100%">
+								<option value="L">Licence</option>
+								<option value="M">Master</option>
+								<option value="D">Doctorate</option>
+							</select>
+						</div>
+						<div class="field field-small">
+							<label class="label">Academic year</label>
+							<select name="" style="display: block; width: 100%">
+								<option value="2010">2010</option>
+								<option value="2010">2010</option>
+								<option value="2010">2010</option>
+								<option value="2010">2010</option>
+								<option value="2010">2010</option>
+								<option value="2010">2010</option>
+								<option value="2010">2010</option>
+								<option value="2010">2010</option>
+								<option value="2010">2010</option>
+								<option value="2010">2010</option>
+								<option value="2010">2010</option>
+								<option value="2010">2010</option>
+								<option value="2010">2010</option>
+								<option value="2010">2010</option>
+							</select>
+						</div>
+						<div class="field field-small">
+							<label class="label">Academic level</label>
+							<select name="" style="display: block; width: 100%">
+								<option value="L">Licence</option>
+								<option value="M">Master</option>
+								<option value="D">Doctorate</option>
+							</select>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block js %}
+	<script>
+		const options = {
+			url: "/upload",
+			allowedTypes: ["docx", "doc", "pdf", "word", "png", "jpg", "jpeg", "mp4"],
+			maxFileSize: 1024 * 1024 * 100, // 20 MB max
+			onSuccess: function (data, uploader) {
+				const json = JSON.parse(data);
+				alert(`${json["msg"]} - filename ${json["filename"]}`);
+				return;
+			},
+			onError: function (err, uploder) {
+				alert(JSON.parse(err)["msg"]);
+				return;
+			},
+			onProgress: function (progress, uploader) {
+				console.log(progress);
+				uploader.progressBar.style.width = `${progress}%`;
+			}
+		}
+		const fileForm = document.querySelector(".js-file-form");
+		new FileUploader(fileForm, options);
+	</script>
+{% endblock %}
+
+

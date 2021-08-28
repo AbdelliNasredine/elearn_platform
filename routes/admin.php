@@ -31,5 +31,8 @@ $app->group("/admin", function (App $app) {
 	$app->get("/documents", DocumentController::class . ":index")
 		->setName("admin.documents");
 
+	$app->map(["GET", "POST"], "/document/new", DocumentController::class . ":new")
+		->setName("admin.addDocument");
+
 
 })->add(new \App\Middlewares\AdminMiddleware($app->getContainer()));

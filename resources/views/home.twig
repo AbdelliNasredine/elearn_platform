@@ -3,18 +3,8 @@
 
 {% block main %}
 	<div class="container">
-		<div>
-			<h1>Welcome {{ auth.user.username }}
-				<span class="pill pill-primary">
-				{% if auth.user.isAdmin() %}
-					admin
-				{% elseif auth.user.isStudent() %}
-					student
-				{% endif %}
-			</span>
-			</h1>
-			<p>
-			</p>
+		<div class="py-2">
+			<h1>Welcome</h1>
 		</div>
 	</div>
 {% endblock %}

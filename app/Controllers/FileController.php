@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Models\User;
 use App\Services\StorageService;
 use Psr\Container\ContainerInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Slim\Http\Stream;
 
 class FileController extends BaseController
@@ -16,6 +18,38 @@ class FileController extends BaseController
 	{
 		parent::__construct($container);
 		$this->storageService = $container->get(StorageService::class);
+	}
+
+	public function upload(Request $request, Response $response)
+	{
+		$file = $request->getUploadedFiles()["file"];
+		$allowedExtensions = array("doc","docx","word","pdf","png","jpg","jpeg","mp4");
+		$maxFileSize = 1024 * 1024 * 100; // 20 MB
+
+		if($file->getError() !== UPLOAD_ERR_OK) {
+			return $response->withStatus(500)
+						->withHeader("Content-Type", "application/json")
+						->withJson(json_encode(array("msg" => "Some error happened")));
+		}
+
+		// check file extension
+		$extension = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
+		if(!in_array($extension, $allowedExtensions)) {
+			return $response->withStatus(400)
+				->withHeader("Content-Type", "application/json")
+				->withJson(json_encode(array("msg" => "Unsupported file extension")));
+		}
+
+		// check file size
+		if($file->getSize() > $maxFileSize) {
+			return $response->withStatus(400)
+				->withHeader("Content-Type", "application/json")
+				->withJson(json_encode(array("msg" => "File size exceed maximum size allowed (20 MB)")));
+		}
+
+		$fileName = $this->storageService->moveFile($file);
+			return $response->withHeader("Content-Type", "application/json")
+						->withJson(json_encode(array("msg" => "File uploaded successfully" , "filename" => $fileName)));
 	}
 
 	public function getImage($request, $response, $args)
