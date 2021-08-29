@@ -44,18 +44,18 @@
 
 						<form action="{{ path_for("auth.login") }}" method="post">
 							{# Username field #}
+							<label for="username"> {{ __("messages.field:username") }} </label>
 							<div class="field">
 								<input id="username" class="field__input" type="text" name="username" value="{{ val("username") }}"
 											 placeholder="Username" required>
-								<label for="username" class="field__label"> {{ __("messages.field:username") }} </label>
 							</div>
 
 							{# Password field #}
+								<label for="password" >{{ __("messages.field:password") }}</label>
 							<div class="field">
 								<input id="password" class="field__input" type="password" name="password" value="{{ val("password") }}"
 											 placeholder="Password"
 											 required>
-								<label for="password" class="field__label">{{ __("messages.field:password") }}</label>
 								<span class="field-password__toggle material-icons-round">
 										visibility
 									</span>

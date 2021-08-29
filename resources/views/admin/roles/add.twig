@@ -12,6 +12,7 @@
 						<h4>Create new user role</h4>
 						<p class="mb-1">Please fill the new role name</p>
 						<form action="{{ path_for("admin.addRole") }}" method="post">
+							{{ csrf() | raw }}
 							<div class="field field-small">
 								<label for="name">Role Name *</label>
 								<input class="field__input" type="text" name="name" value="{{ val("name") }}" id="name">
