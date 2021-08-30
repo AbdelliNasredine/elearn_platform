@@ -1,4 +1,4 @@
-<nav class="sidenav">
+<nav class="sidenav active">
 	<div class="nav-wrapper">
 		{# <div class="nav__title">Main Menu</div> #}
 		<ul class="nav-simple">
@@ -14,21 +14,33 @@
 				<li class="nav-simple__item">
 					<a href="{{ path_for("admin.documents") }}">
 						<span class="material-icons-round nav-simple__icon"> local_library </span>
-						<span class="nav-simple__text"> Content </span>
+						<span class="nav-simple__text"> Manage Courses </span>
 					</a>
 				</li>
 				<li class="nav-simple__item">
 					<a href="{{ path_for("admin.users") }}">
 						<span class="material-icons-round nav-simple__icon"> people </span>
-						<span class="nav-simple__text"> Users </span>
+						<span class="nav-simple__text"> Manage Users </span>
 					</a>
 				</li>
 				<li class="nav-simple__item">
-					<a href="{{ path_for("admin.roles") }}">
-						<span class="material-icons-round nav-simple__icon"> admin_panel_settings </span>
-						<span class="nav-simple__text"> Roles </span>
+					<a href="{{ path_for("admin.faculties") }}">
+						<span class="material-icons-round nav-simple__icon">school</span>
+						<span class="nav-simple__text">Manage Faculties</span>
 					</a>
 				</li>
+				<li class="nav-simple__item">
+					<a href="#">
+						<span class="material-icons-round nav-simple__icon">school</span>
+						<span class="nav-simple__text">Manage Departments</span>
+					</a>
+				</li>
+{#				<li class="nav-simple__item">#}
+{#					<a href="{{ path_for("admin.roles") }}">#}
+{#						<span class="material-icons-round nav-simple__icon"> admin_panel_settings </span>#}
+{#						<span class="nav-simple__text"> Manage User Roles </span>#}
+{#					</a>#}
+{#				</li>#}
 			{% else %}
 				<li class="nav-simple__item">
 					<a href="{{ path_for("home") }}">

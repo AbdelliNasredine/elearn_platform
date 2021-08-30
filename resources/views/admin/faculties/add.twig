@@ -1,0 +1,44 @@
+{% extends "templates/main.twig" %}
+
+{% block title %}
+	ADMIN - CREATE FACULTY
+{% endblock %}
+
+{% block main %}
+	<div class="container-narrow">
+		<div class="py-2">
+			<div class="flex j-between i-center">
+				<div>
+					<ol class="breadcrumb">
+						<li class="breadcrumb__item">
+							<a href="{{ path_for("home") }}"><span class="material-icons-round">home</span></a>
+						</li>
+						<li class="breadcrumb__item">
+							<a href="{{ path_for("admin.faculties") }}">Faculties</a>
+						</li>
+						<li class="breadcrumb__item">
+							new faculty
+						</li>
+					</ol>
+					<h1>Create new Faculty</h1>
+				</div>
+			</div>
+		</div>
+		<div class="card card-muted">
+			<div class="card__body">
+				<form action="{{ path_for("admin.addFaculty") }}" method="POST">
+					{{ csrf() | raw }}
+					<div class="field field-small">
+						<label for="name" class="label">Faculty name</label>
+						<input type="text" id="name" class="field__input" name="name" required>
+					</div>
+					<button type="submit" class="btn btn-filled btn-primary">
+						<span class="material-icons-round">add</span>
+						save
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+

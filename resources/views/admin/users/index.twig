@@ -20,90 +20,103 @@
 				Add new user
 			</a>
 		</div>
-		<table class="table card-muted">
-			<thead>
-			<tr>
-				<th>ID</th>
-				<th colspan="2">username</th>
-				{# <th>Points</th> #}
-				<th>last login</th>
-				<th>Registered since</th>
-				<th>status</th>
-				<th>actions</th>
-			</tr>
-			</thead>
-			<tbody>
-			{% for user in users %}
+		{% if users is not empty %}
+			<table class="table card-muted">
+				<thead>
 				<tr>
-					<td>#{{ user.id }}</td>
-					<td colspan="2">
-						<div class="flex i-center gap-1">
-							<span class="material-icons-round">person</span>
-							<div class="flex col j-center">
-								<p>{{ user.username }}</p>
-								<span class="pill pill-primary">
+					<th>ID</th>
+					<th colspan="2">username</th>
+					<th>last login</th>
+					<th>Registered since</th>
+					<th>status</th>
+					<th>actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for user in users %}
+					<tr>
+						<td>#{{ user.id }}</td>
+						<td colspan="2">
+							<div class="flex i-center gap-1">
+								<span class="material-icons-round">person</span>
+								<div class="flex col j-center">
+									<p>{{ user.username }}</p>
+									<span class="pill pill-primary">
 										{{ user.role.name }}
 									</span>
+								</div>
 							</div>
-						</div>
-					</td>
-					{# <td> #}
-					{# <small> #}
-					{# {{ user.total_points ~ " Point" ~ (user.total_points > 1 ? "s" : "") }} #}
-					{# </small> #}
-					{# </td> #}
-					<td>
-						<small>
-							{% if user.last_login %}
-								{{ user.last_login | human_diff }}
-							{% else %}
-								Never login in
-							{% endif %}
-						</small>
-					</td>
-					<td>
-						<small>
-							{{ user.created_at | human_diff }}
-						</small>
-					</td>
-					<td>
-						<small>
-							{{ user.status }}
-						</small>
-					</td>
-					<td>
-						<div class="flex gap-1">
-							<a href="{{ path_for("user.profile", {"id": user.id }) }}" class="btn-icon btn-border-primary btn-circle"
-								 data-tippy-content="view profile">
-								<span class="material-icons-round">visibility</span>
-							</a>
-							<a href="{{ path_for("admin.editUser", {"id": user.id}) }}"
-								 class="btn-icon btn-border-primary btn-circle">
-								<span class="material-icons-round">edit</span>
-							</a>
-							<a href="#" class="btn-icon btn-border-primary btn-circle">
-								<span class="material-icons-round">delete</span>
-							</a>
-						</div>
-					</td>
-				</tr>
-			{% endfor %}
-			</tbody>
-		</table>
-		<div class="py-1">
-			<div class="btn-group">
-				<a href="#" class="btn btn-icon btn-circle btn-text">
-					<span class="material-icons-round">arrow_back_ios</span>
-				</a>
-				<a href="#" class="btn-icon btn-circle">1</a>
-				<a href="#" class="btn-icon btn-circle">2</a>
-				<a href="#" class="btn-icon btn-circle">...</a>
-				<a href="#" class="btn-icon btn-circle">8</a>
-				<a href="#" class="btn btn-icon btn-circle btn-text">
-					<span class="material-icons-round">arrow_forward_ios</span>
-				</a>
+						</td>
+						<td>
+							<small>
+								{% if user.last_login %}
+									{{ user.last_login | human_diff }}
+								{% else %}
+									Never login in
+								{% endif %}
+							</small>
+						</td>
+						<td>
+							<small>
+								{{ user.created_at | human_diff }}
+							</small>
+						</td>
+						<td>
+							<small>
+								{{ user.status }}
+							</small>
+						</td>
+						<td>
+							<div class="flex gap-1">
+								<a href="{{ path_for("user.profile", {"id": user.id }) }}"
+									 class="btn-icon btn-border-primary btn-circle"
+									 data-tippy-content="view profile">
+									<span class="material-icons-round">visibility</span>
+								</a>
+								<a href="{{ path_for("admin.editUser", {"id": user.id}) }}"
+									 class="btn-icon btn-border-primary btn-circle">
+									<span class="material-icons-round">edit</span>
+								</a>
+								<a href="#" class="btn-icon btn-border-primary btn-circle">
+									<span class="material-icons-round">delete</span>
+								</a>
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<div class="card">
+				<div class="card__body">
+					<div class="flex col j-center i-center py-5">
+						<h2>No user found</h2>
+						<p class="mb-1">Please add a new user</p>
+						<a href="{{ path_for("admin.addUser") }}" class="btn btn-border-primary btn-rounded ">
+							<span class="material-icons-round">people</span>
+							New User
+						</a>
+					</div>
+				</div>
 			</div>
-		</div>
+		{% endif %}
+
+
+		{# Pagination #}
+		{# <div class="py-1"> #}
+		{# <div class="btn-group"> #}
+		{# <a href="#" class="btn btn-icon btn-circle btn-text"> #}
+		{# <span class="material-icons-round">arrow_back_ios</span> #}
+		{# </a> #}
+		{# <a href="#" class="btn-icon btn-circle">1</a> #}
+		{# <a href="#" class="btn-icon btn-circle">2</a> #}
+		{# <a href="#" class="btn-icon btn-circle">...</a> #}
+		{# <a href="#" class="btn-icon btn-circle">8</a> #}
+		{# <a href="#" class="btn btn-icon btn-circle btn-text"> #}
+		{# <span class="material-icons-round">arrow_forward_ios</span> #}
+		{# </a> #}
+		{# </div> #}
+		{# </div>#}
 	</div>
 {% endblock %}
 

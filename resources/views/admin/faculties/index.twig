@@ -1,0 +1,53 @@
+{% extends "templates/main.twig" %}
+
+{% block title %}
+	ADMIN - MANAGE FACULTIES
+{% endblock %}
+
+{% block main %}
+	<div class="container-narrow">
+		<div class="py-2">
+			<div class="flex j-between i-center">
+				<div>
+					<ol class="breadcrumb">
+						<li class="breadcrumb__item">
+							<a href="{{ path_for("home") }}"><span class="material-icons-round">home</span></a>
+						</li>
+						<li class="breadcrumb__item">
+							Faculties
+						</li>
+					</ol>
+					<h1>Faculties Management</h1>
+				</div>
+				<a href="{{ path_for("admin.addFaculty") }}" class="btn btn-filled btn-secondary">ADD NEW FACULTY</a>
+			</div>
+		</div>
+		{% if faculties is not empty %}
+			<table class="table">
+				<thead>
+				<tr>
+					<th>id</th>
+					<th>faculty name</th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for faculty in faculties %}
+					<tr>
+						<td>{{ faculty.id }}</td>
+						<td>
+							<a href="#">{{ faculty.name }}</a>
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<div class="card card-muted">
+				<div class="card__body flex i-center j-center p-2">
+					<p>Not faculty found</p>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
+

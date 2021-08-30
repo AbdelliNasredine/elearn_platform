@@ -25,7 +25,8 @@
 		</div>
 	</div>
 	<div class="container-narrow">
-		{% if documents %}
+		{% if documents is not empty %}
+		{% else %}
 			<div class="card">
 				<div class="card__body">
 					<div class="flex col j-center i-center py-5">
@@ -38,7 +39,6 @@
 					</div>
 				</div>
 			</div>
-		{% else %}
 		{% endif %}
 	</div>
 {% endblock %}
