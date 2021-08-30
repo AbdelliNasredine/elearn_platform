@@ -22,32 +22,36 @@
 				<a href="{{ path_for("admin.addFaculty") }}" class="btn btn-filled btn-secondary">ADD NEW FACULTY</a>
 			</div>
 		</div>
-		{% if faculties is not empty %}
-			<table class="table">
-				<thead>
-				<tr>
-					<th>id</th>
-					<th>faculty name</th>
-				</tr>
-				</thead>
-				<tbody>
-				{% for faculty in faculties %}
+		<div class="card card-muted">
+			{% if faculties is not empty %}
+				<table class="table">
+					<thead>
 					<tr>
-						<td>{{ faculty.id }}</td>
-						<td>
-							<a href="#">{{ faculty.name }}</a>
-						</td>
+						<th>id</th>
+						<th>faculty name</th>
+						<th>Number of departments</th>
 					</tr>
-				{% endfor %}
-				</tbody>
-			</table>
-		{% else %}
-			<div class="card card-muted">
-				<div class="card__body flex i-center j-center p-2">
-					<p>Not faculty found</p>
+					</thead>
+					<tbody>
+					{% for faculty in faculties %}
+						<tr>
+							<td>{{ faculty.id }}</td>
+							<td>
+								<a href="{{ path_for("admin.faculty", {"id": faculty.id}) }}">{{ faculty.name }}</a>
+							</td>
+							<td> <small class="small">{{ faculty.departments | length }}</small></td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			{% else %}
+				<div class="card card-muted">
+					<div class="card__body flex i-center j-center p-2">
+						<p>Not faculty found</p>
+					</div>
 				</div>
-			</div>
-		{% endif %}
+			{% endif %}
+		</div>
 	</div>
 {% endblock %}
 

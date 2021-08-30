@@ -1,0 +1,90 @@
+{% extends "templates/main.twig" %}
+
+{% block title %}
+	ADMIN - FACULTY OF {{ faculty.name | upper }}
+{% endblock %}
+
+{% block main %}
+	<div class="container-narrow">
+		<div class="py-2">
+			<div class="flex j-between i-center">
+				<div>
+					<ol class="breadcrumb">
+						<li class="breadcrumb__item">
+							<a href="{{ path_for("home") }}"><span class="material-icons-round">home</span></a>
+						</li>
+						<li class="breadcrumb__item">
+							<a href="{{ path_for("admin.faculties") }}">
+								Faculties
+							</a>
+						</li>
+						<li class="breadcrumb__item">
+							{{ faculty.name }}
+						</li>
+					</ol>
+					<h2>Faculty of {{ faculty.name }}</h2>
+				</div>
+				<button class="btn btn-filled btn-secondary modal-toggle" data-model-id="new_department_modal">
+					new department
+				</button>
+			</div>
+		</div>
+		<h4 class="mb-1">Department List <small class="small">({{ departments | length }})</small></h4>
+		<div class="card card-muted">
+			{% if departments is not empty %}
+				<table class="table">
+					<thead>
+					<tr>
+						<th>id</th>
+						<th>Department name</th>
+						<th>Actions</th>
+					</tr>
+					</thead>
+					<tbody>
+					{% for department in departments %}
+						<tr>
+							<td>{{ department.id }}</td>
+							<td>
+								<a href="#">{{ department.name }}</a>
+							</td>
+							<td>
+								<a href="#"></a>
+							</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			{% else %}
+				<div class="card card-muted">
+					<div class="card__body flex i-center j-center p-2">
+						<p>Not Department found</p>
+					</div>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+	<div class="flex">
+		<div class="model" id="new_department_modal">
+			<div class="model__wrapper">
+				<button class="model__close">
+					<span class="material-icons-round"> close </span>
+				</button>
+				<h3 class="mb-1">
+					Add new Department
+				</h3>
+				<form action="{{ path_for("admin.addDepartment", {"id": faculty.id}) }}" method="post">
+					{{ csrf() | raw }}
+					<div class="field field-small">
+						<label class="label" for="name">Department name</label>
+						<input class="field__input" type="text" id="name" name="name" required>
+					</div>
+					<button type="submit" class="btn btn-filled btn-secondary">
+						<span class="material-icons-round">save</span>
+						save
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+

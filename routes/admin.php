@@ -5,6 +5,7 @@
  */
 
 use App\Controllers\AdminController;
+use App\Controllers\Management\DepartmentManagementController;
 use App\Controllers\Management\DocumentController;
 use App\Controllers\Management\FacultyManagementController;
 use App\Controllers\Management\RoleController;
@@ -35,7 +36,7 @@ $app->group("/admin", function (App $app) {
 	$app->map(["GET", "POST"], "/document/new", DocumentController::class . ":new")
 		->setName("admin.addDocument");
 
-	// faculties Management
+	// faculties & departments Management
 	$app->get("/faculties", AdminController::class . ":facultiesPage")
 		->setName("admin.faculties");
 
@@ -43,6 +44,11 @@ $app->group("/admin", function (App $app) {
 		->setName("admin.addFaculty");
 	$app->post("/faculties/new", FacultyManagementController::class . ":store")
 		->setName("admin.addFaculty");
+	$app->get("/faculties/{id}" , FacultyManagementController::class . ":get")
+		->setName("admin.faculty");
+	$app->post("/faculties/{id}/departments" , DepartmentManagementController::class . ":store")
+		->setName("admin.addDepartment");
+
 
 
 })->add(new \App\Middlewares\AdminMiddleware($app->getContainer()));

@@ -8,7 +8,7 @@ class Department extends Model
 {
 	protected $table = "departements";
 	public $timestamps = false;
-	protected $fillable = ["name", "cover_image", "about"];
+	protected $fillable = ["name", "cover_image", "about", "faculty_id"];
 
 	public function faculty(){
 		return $this->belongsTo(Faculty::class, "faculty_id");
