@@ -88,7 +88,7 @@
 		const options = {
 			url: "{{ path_for("file.upload",[], {"type": "picture"}) }}",
 			allowedTypes: ["png", "jpg", "jpeg"],
-			maxFileSize: 1024 * 1024, // 1 MB max
+			maxFileSize: 1024 * 1024 * 1, // 5 MB max
 			onSuccess: function (data, uploader) {
 				const fileName = JSON.parse(data)["filename"];
 
