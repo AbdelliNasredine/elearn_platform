@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Profile;
 use App\Models\User;
 use Psr\Container\ContainerInterface;
 use Slim\Http\UploadedFile;
@@ -17,15 +18,11 @@ class UserService extends Service
 		$this->storageService = $container->get(StorageService::class);
 	}
 
-	public function changeUserProfilePicture(UploadedFile $image, User $user)
+	public function changeUserProfilePicture($image_path,$user_id)
 	{
-		// if user has not a profile picture
-		$user_profile = $user->profile;
-		if(!$user_profile->picture) {
-			$user_directory = $this->storageService->getUserDirectory($user->username);
-			$user_profile->picture = $this->storageService->moveFile($user_directory, $image);
-			$user_profile->save();
-		}
 		// @todo if the user already has a profile picture
+		$user_profile = User::find($user_id)->profile;
+		$user_profile->picture = $image_path;
+		$user_profile->save();
 	}
 }

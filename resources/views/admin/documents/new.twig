@@ -25,25 +25,22 @@
 		<div class="card card-muted">
 			<div class="card__body">
 				<h3 class="mb-1">Learning Content creating form</h3>
-
-				<form action="{{ path_for("file.upload") }}" enctype="multipart/form-data" method="post" class="js-file-form">
-					{{ csrf() | raw }}
-					<label for="file" class="file__label">
-						<span class="material-icons-round">file_upload</span>
-						<span>Select file</span>
-						<span class="file__progress-bar"></span>
+{#				<form action="{{ path_for("file.upload") }}" enctype="multipart/form-data" method="post" class="js-file-form">#}
+{#					{{ csrf() | raw }}#}
+{#					<label for="file" class="file__label">#}
+{#						<span class="material-icons-round">file_upload</span>#}
+{#						<span class="file__name">Please Select a file</span>#}
+{#						<span class="file__progress-bar"></span>#}
 {#						<span class="file__progress-spinner"></span>#}
-{#						<!-- <span class="material-icons-round file__progress-success">check_circle</span> -->#}
-					</label>
-					<input id="file" class="file__input" type="file" required />
-					<small>
-						Only pdf, doc, docx, png, jpeg are accepted files
-						(max. 20 MB in size)
-					</small>
-				</form>
-
-
-				<form style="display: none" action="" method="post">
+{#						#}{# <!-- <span class="material-icons-round file__progress-success">check_circle</span> --> #}
+{#					</label>#}
+{#					<input id="file" class="file__input" type="file" required/>#}
+{#					<small>#}
+{#						Only pdf, doc, docx, png, jpeg are accepted files#}
+{#						(max. 20 MB in size)#}
+{#					</small>#}
+{#				</form>#}
+				<form id="doc-info-form" class="mt-1" action="" method="post">
 					<div class="field field-small">
 						<label class="label">What is the type of the learning content ?</label>
 						<div class="flex i-center gap-1">
@@ -125,11 +122,12 @@
 	<script>
 		const options = {
 			url: "/upload",
-			allowedTypes: ["docx", "doc", "pdf", "word", "png", "jpg", "jpeg", "mp4"],
+			allowedTypes: ["docx", "doc", "pdf", "word", "png", "jpg", "jpeg"],
 			maxFileSize: 1024 * 1024 * 100, // 20 MB max
 			onSuccess: function (data, uploader) {
 				const json = JSON.parse(data);
 				alert(`${json["msg"]} - filename ${json["filename"]}`);
+				document.querySelector("#doc-info-form").style.display = "block";
 				return;
 			},
 			onError: function (err, uploder) {

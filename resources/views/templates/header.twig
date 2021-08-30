@@ -14,17 +14,14 @@
 		</div>
 		<div class="header__separator"></div>
 		<div class="header__item">
-			<span class="material-icons-round">notifications</span>
+			<a href="#" class="btn btn-text btn-light">
+				<span class="material-icons-round">notifications</span>
+			</a>
 		</div>
 		<div class="header__item">
 			<div class="dropdown">
 				<button class="dropdown__toggle">
 					<div class="header__profile">
-						<img
-							class="profile-image"
-							src="{{ path_for("file.image", { "name": auth.user.profile.picture, "username": auth.user.username }) }}"
-							alt="user profile"
-						/>
 						<span> @{{ auth.user.username }} </span>
 					</div>
 				</button>

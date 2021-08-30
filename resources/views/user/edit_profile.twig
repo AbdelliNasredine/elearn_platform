@@ -25,13 +25,20 @@
 				<div class="mb-2">
 					<h3 class="mb-1">Photo</h3>
 					<div class="flex gap-1 i-center">
-						<div class="card-muted"
-								 style="width: 96px; height: 96px; background-color: #7e8fa1; border-radius: 50%"></div>
-						<form action="" enctype="multipart/form-data">
-							<input type="file" required>
-							<button type="submit" class="btn btn-border-primary">
-								change profile picture
-							</button>
+						<img src="{{ path_for("file", {"name": auth.user.profile.picture}) }}" alt="profile_picture">
+						<form action="{{ path_for("file.upload", [], {"type": "picture"}) }}" enctype="multipart/form-data" method="post"
+									class="js-file-form">
+							{{ csrf() | raw }}
+							<label for="file" class="file__label">
+								<span class="material-icons-round">file_upload</span>
+								<span class="file__name">Please Select a file</span>
+								<span class="file__progress-bar"></span>
+								<span class="file__progress-spinner"></span>
+							</label>
+							<input id="file" class="file__input" type="file" required/>
+							<small>
+								Only png, jpeg, jpg are accepted files
+							</small>
 						</form>
 					</div>
 				</div>
@@ -43,11 +50,13 @@
 						<div class="flex gap-1">
 							<div class="field field-small">
 								<label for="first_name">First Name</label>
-								<input class="field__input" id="first_name" type="text" name="first_name" value="{{ auth.user.profile.first_name }}">
+								<input class="field__input" id="first_name" type="text" name="first_name"
+											 value="{{ auth.user.profile.first_name }}">
 							</div>
 							<div class="field field-small">
 								<label for="last_name">Last Name</label>
-								<input class="field__input" id="last_name" type="text" name="last_name" value="{{ auth.user.profile.last_name }}">
+								<input class="field__input" id="last_name" type="text" name="last_name"
+											 value="{{ auth.user.profile.last_name }}">
 							</div>
 						</div>
 						<div class="flex gap-1">
@@ -59,7 +68,8 @@
 							</div>
 							<div class="field field-small">
 								<label for="first_name">Phone Number</label>
-								<input class="field__input" id="first_name" type="tel" name="phone_number" value="{{ auth.user.profile.phone_number }}">
+								<input class="field__input" id="first_name" type="tel" name="phone_number"
+											 value="{{ auth.user.profile.phone_number }}">
 							</div>
 						</div>
 						<button class="btn btn-filled btn-primary">
@@ -73,3 +83,35 @@
 	</div>
 	</div>
 {% endblock %}
+{% block js %}
+	<script>
+		const options = {
+			url: "{{ path_for("file.upload",[], {"type": "picture"}) }}",
+			allowedTypes: ["png", "jpg", "jpeg"],
+			maxFileSize: 1024 * 1024, // 1 MB max
+			onSuccess: function (data, uploader) {
+				const fileName = JSON.parse(data)["filename"];
+
+				// send a save request
+				const url = "{{ path_for("user.changeProfilePicture", {"id": auth.user.id}) }}";
+
+				fetch(`${url}?image_name=${fileName}`).then((_) => {
+					document.location.reload();
+				});
+
+				return;
+			},
+			onError: function (err, uploder) {
+				alert(JSON.parse(err)["msg"]);
+				return;
+			},
+			onProgress: function (progress, uploader) {
+				console.log(progress);
+				uploader.progressBar.style.width = `${progress}%`;
+			}
+		}
+		const fileForm = document.querySelector(".js-file-form");
+		new FileUploader(fileForm, options);
+	</script>
+{% endblock %}
+

@@ -22,15 +22,15 @@
 		</div>
 		<table class="table card-muted">
 			<thead>
-				<tr>
-					<th>ID</th>
-					<th colspan="2">username</th>
-					<th>Points</th>
-					<th>last login</th>
-					<th>Registered since</th>
-					<th>status</th>
-					<th>actions</th>
-				</tr>
+			<tr>
+				<th>ID</th>
+				<th colspan="2">username</th>
+				{# <th>Points</th> #}
+				<th>last login</th>
+				<th>Registered since</th>
+				<th>status</th>
+				<th>actions</th>
+			</tr>
 			</thead>
 			<tbody>
 			{% for user in users %}
@@ -47,11 +47,11 @@
 							</div>
 						</div>
 					</td>
-					<td>
-						<small>
-							{{ user.total_points ~ " Point" ~ (user.total_points > 1 ? "s" : "") }}
-						</small>
-					</td>
+					{# <td> #}
+					{# <small> #}
+					{# {{ user.total_points ~ " Point" ~ (user.total_points > 1 ? "s" : "") }} #}
+					{# </small> #}
+					{# </td> #}
 					<td>
 						<small>
 							{% if user.last_login %}

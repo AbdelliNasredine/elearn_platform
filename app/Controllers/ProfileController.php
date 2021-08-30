@@ -87,7 +87,7 @@ class ProfileController extends BaseController
 		}
 
 		// @todo set validation error into flash
-		return $this->redirect($response, "user.profile" , ["id" => $user_id]);
+		return $this->redirect($response, "user.profile", ["id" => $user_id]);
 	}
 
 
@@ -117,27 +117,12 @@ class ProfileController extends BaseController
 	}
 
 	// POST /user/change-picture
-	public function changeProfilePicture($request, $response)
+	public function changeProfilePicture(Request $request, Response $response)
 	{
-		$uploaded_img = $request->getUploadedFiles()["image"];
-		// @todo - implement image size image size validation
-		$imageValidation = $this->validator->object($uploaded_img, [
-			"file" => [
-				"rules" => V::image(),
-				"messages" => [
-					"image" => "Uploaded file must be an image",
-					"size" => "Image size must be greater then 5mb"
-				]
-			],
-		]);
-
-		if ($imageValidation->isValid()) {
-			if ($uploaded_img->getError() === UPLOAD_ERR_OK) {
-				$this->userService->changeUserProfilePicture($uploaded_img, $this->auth->user());
-				return $this->redirect($response, "user.settings");
-			}
-		}
-		return $this->redirect($response, "user.settings");
+		$user_id = $this->auth->user()->id;
+		$image_name = $request->getQueryParam("image_name");
+		$this->userService->changeUserProfilePicture($image_name, $user_id);
+		return $this->redirect($response, "user.profile" , ["id" => $user_id]);
 	}
 
 }

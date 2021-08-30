@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\UploadedFileInterface;
+use Slim\Exception\NotFoundException;
 use Slim\Exception\SlimException;
 
 class StorageService implements StorageServiceInterface
@@ -30,9 +31,9 @@ class StorageService implements StorageServiceInterface
 		$directory = $this->storage_dir . DIRECTORY_SEPARATOR . $extension;
 
 		// check if extension directory exists, create it otherwise
-		if(!is_dir($directory)) {
+		if (!is_dir($directory)) {
 			$result = mkdir($directory);
-			if(!$result) throw new \Exception("Cannot create dir");
+			if (!$result) throw new \Exception("Cannot create dir");
 		};
 
 		// move the file into storage
@@ -41,8 +42,23 @@ class StorageService implements StorageServiceInterface
 		return $filename;
 	}
 
-	public function exists($filename)
+	public function exists($filePath)
 	{
-		return file_exists($this->getExtension($filename));
+		return file_exists($filePath);
 	}
+
+	public function getFileContent($file_name)
+	{
+		$extension = $this->getExtension($file_name);
+		$path = $this->storage_dir . DIRECTORY_SEPARATOR . $extension;
+		if (!$this->exists($path)) return null;
+		return file_get_contents($path);
+	}
+
+	public function getPath($file_name)
+	{
+		return $this->storage_dir . DIRECTORY_SEPARATOR . $this->getExtension($file_name) . DIRECTORY_SEPARATOR . $file_name;
+	}
+
+
 }

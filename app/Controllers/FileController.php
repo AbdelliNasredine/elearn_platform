@@ -5,9 +5,12 @@ namespace App\Controllers;
 use App\Models\User;
 use App\Services\StorageService;
 use Psr\Container\ContainerInterface;
+use Slim\Exception\NotFoundException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\Stream;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 
 class FileController extends BaseController
 {
@@ -23,47 +26,53 @@ class FileController extends BaseController
 	public function upload(Request $request, Response $response)
 	{
 		$file = $request->getUploadedFiles()["file"];
-		$allowedExtensions = array("doc","docx","word","pdf","png","jpg","jpeg","mp4");
+		$type = $request->getQueryParam("type");
+		$allowedExtensions = array("doc", "docx", "word", "pdf", "png", "jpg", "jpeg", "mp4");
 		$maxFileSize = 1024 * 1024 * 100; // 20 MB
 
-		if($file->getError() !== UPLOAD_ERR_OK) {
+		if ($file->getError() !== UPLOAD_ERR_OK) {
 			return $response->withStatus(500)
-						->withHeader("Content-Type", "application/json")
-						->withJson(json_encode(array("msg" => "Some error happened")));
+				->withHeader("Content-Type", "application/json")
+				->withJson(json_encode(array("msg" => "Some error happened")));
 		}
 
 		// check file extension
 		$extension = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
-		if(!in_array($extension, $allowedExtensions)) {
+		if (!in_array($extension, $allowedExtensions)) {
 			return $response->withStatus(400)
 				->withHeader("Content-Type", "application/json")
 				->withJson(json_encode(array("msg" => "Unsupported file extension")));
 		}
 
 		// check file size
-		if($file->getSize() > $maxFileSize) {
+		if ($file->getSize() > $maxFileSize) {
 			return $response->withStatus(400)
 				->withHeader("Content-Type", "application/json")
 				->withJson(json_encode(array("msg" => "File size exceed maximum size allowed (20 MB)")));
 		}
 
 		$fileName = $this->storageService->moveFile($file);
-			return $response->withHeader("Content-Type", "application/json")
-						->withJson(json_encode(array("msg" => "File uploaded successfully" , "filename" => $fileName)));
+
+		if ($type == "picture") {
+			// crop the image to be square
+			Image::load($this->storageService->getPath($fileName))
+				->fit(Manipulations::FIT_CROP, 128, 128)
+				->save();
+
+		}
+
+		return $response->withHeader("Content-Type", "application/json")
+			->withJson(json_encode(array("msg" => "File uploaded successfully", "filename" => $fileName)));
 	}
 
-	public function getImage($request, $response, $args)
+	public function getFile($request, $response, $args)
 	{
-		// get the image filename
-		$image_name = $args["name"];
-		$username = $args["username"];
+		$file_name = $args["name"];
 
-		// check if the name is valid
+		$path = $this->storageService->getPath($file_name);
 
-		// get user directory
-		$user_dir = $this->storageService->getUserDirectory($username);
-		$path = $user_dir . DIRECTORY_SEPARATOR . $image_name;
-		$file_content = file_get_contents($path);
+		if (!$this->storageService->exists($path)) throw new NotFoundException($request, $response);
+
 		$fs = new Stream(fopen($path, "rb"));
 
 		return $response->withBody($fs)

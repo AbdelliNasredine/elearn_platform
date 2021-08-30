@@ -43,7 +43,7 @@ $app->group("", function (App $app) {
 	$app->map(["GET", "POST"], "/user/{id:[0-9]+}/edit", ProfileController::class . ":editProfile")
 		->setName("user.editProfile");
 
-	$app->post("/user/change-picture", ProfileController::class . ":changeProfilePicture")
+	$app->get("/user/{id:[0-9]+}/profile-picture", ProfileController::class . ":changeProfilePicture")
 		->setName("user.changeProfilePicture");
 
 	$app->get("/user/settings", ProfileController::class . ":settings")
@@ -53,8 +53,8 @@ $app->group("", function (App $app) {
 		->setName("user.changePassword");
 
 
-	$app->get("/img/{username}/{name}", FileController::class . ":getImage" )
-		->setName("file.image");
+	$app->get("/files/{name}", FileController::class . ":getFile" )
+		->setName("file");
 
 	// file upload
 	$app->post("/upload", FileController::class . ":upload")->setName("file.upload");
