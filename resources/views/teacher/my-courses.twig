@@ -35,7 +35,7 @@
 						<td>{{ course.level.name }}</td>
 						<td>{{ course.created_at | human_diff }}</td>
 						<td>
-							<a href="#" class="btn btn-small btn-circle btn-icon btn-border-primary">
+							<a href="{{ path_for("teacher.course.edit", {"id": course.id }) }}" class="btn btn-small btn-circle btn-icon btn-border-primary">
 								<span class="material-icons-round">edit</span>
 							</a>
 						</td>

@@ -6,6 +6,7 @@ use App\Models\AcademicLevel;
 use App\Models\Course;
 use App\Models\Faculty;
 use Respect\Validation\Validator as V;
+use Slim\Exception\NotFoundException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -29,6 +30,14 @@ class TeacherController extends BaseController
 		$user = $this->auth->user();
 		$courses = $user->courses;
 		return $this->view($response, "teacher/my-courses.twig", ["courses" => $courses]);
+	}
+
+	public function getEditCoursePage(Request $request, Response $response, $args)
+	{
+		$id = $args["id"];
+		$course = Course::find($id);
+		if (!$course) throw new NotFoundException($request, $response);
+		return $this->view($response, "teacher/edit-course.twig", ["course" => $course]);
 	}
 
 

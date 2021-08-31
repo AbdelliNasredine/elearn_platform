@@ -32,6 +32,14 @@ $app->group("/auth", function (App $app) {
 
 })->add(new GuestMiddleware($app->getContainer()));
 
+/**
+ * AUTH LOGOUT
+ */
+$app->get("/auth/logout", function ($request, $response) {
+	Session::destroy(Auth::AUTH_ID_KEY);
+	return $response->withRedirect($this->router->pathFor("home"));
+})->setName("auth.logout")->add(new AuthMiddleware($app->getContainer()));
+
 
 /**
  * PROTECTED ROUTES (REQUIRES AUTHENTICATION)
@@ -82,10 +90,7 @@ $app->group("", function (App $app) {
 	$app->get("/my-courses", TeacherController::class . ":getMyCoursesPage")
 		->setName("my-courses")->add(new TeacherMiddleware($app->getContainer()));
 
-	// logout
-	$app->get("/auth/logout", function ($request, $response) {
-		Session::destroy(Auth::AUTH_ID_KEY);
-		return $response->withRedirect($this->router->pathFor("home"));
-	})->setName("auth.logout");
+	$app->get("/my-courses/{id:[0-9]+}/edit", TeacherController::class . ":getEditCoursePage")
+		->setName("teacher.course.edit")->add(new TeacherMiddleware($app->getContainer()));
 
 })->add(new AuthMiddleware($app->getContainer()));

@@ -1,0 +1,90 @@
+{% extends "templates/main.twig" %}
+{% block title %}
+	Teacher - Edit Course
+{% endblock %}
+{% block main %}
+	<div class="container">
+		<div class="py-2 flex i-center j-between">
+			<div>
+				<ol class="breadcrumb">
+					<li class="breadcrumb__item">
+						<a href="{{ path_for("home") }}">
+							<span class="material-icons-round">home</span>
+						</a>
+					</li>
+					<li class="breadcrumb__item">
+						<a href="{{ path_for("my-courses") }}">my courses</a>
+					</li>
+					<li class="breadcrumb__item">
+						<a href="{{ path_for("course", {"id": course.id}) }}">{{ course.name }}</a>
+					</li>
+					<li class="breadcrumb__item">edit</li>
+				</ol>
+				<h2>Edit Course Page</h2>
+			</div>
+			<button class="btn btn-filled btn-secondary modal-toggle" data-model-id="new_chapter">
+				new Chapter
+			</button>
+		</div>
+		{% for chapter in course.chapters %}
+			<div class="card card-muted {{ loop.last ? "" : "mb-1" }}">
+				<div class="card__body">
+					<div class="flex i-center j-between">
+						<h5 class="flex gap-1">
+							<span class="material-icons-round">bookmarks</span>
+							{{ chapter.name }}
+						</h5>
+						<button class="btn btn-small btn-rounded btn-border-primary">
+							<span class="material-icons-round">class</span>
+							new lecture
+						</button>
+					</div>
+				</div>
+			</div>
+		{% else %}
+			<div class="card card-muted">
+				<div class="card__body">
+					<h4>No Chapter Found</h4>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+	{# modals #}
+	<div class="model" id="new_chapter">
+		<div class="model__wrapper">
+			<button class="model__close">
+				<span class="material-icons-round">close</span>
+			</button>
+			<h3 class="mb-1">New Chapter</h3>
+			<p>Please specify the name of the chapter</p>
+			<form action="/api/course/{{ course.id }}/chapters" class="flex i-center gap-1 mt-1"
+						onsubmit="newChapter(event)">
+				{{ csrf() | raw }}
+				<input type="text" name="chapter_name" style="flex: 1" required>
+				<button class="btn btn-filled btn-secondary">
+					<span class="material-icons-round">add</span>
+					add
+				</button>
+			</form>
+		</div>
+	</div>
+{% endblock %}
+{% block js %}
+	<script>
+		function newChapter(e) {
+			e.preventDefault();
+			const url = e.target.action;
+
+			fetch(url, {
+				method: "POST",
+				body: new FormData(e.target)
+			}).then((res) => {
+				if(res.ok) {
+					document.location.reload();
+				} else {
+					new toast("Error !", "error");
+				}
+			})
+		}
+	</script>
+{% endblock %}

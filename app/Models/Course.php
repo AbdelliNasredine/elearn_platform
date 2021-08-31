@@ -32,4 +32,9 @@ class Course extends Model
 		return $this->belongsTo(AcademicLevel::class, "academic_level_id");
 	}
 
+	public function chapters()
+	{
+		return $this->hasMany(Chapter::class);
+	}
+
 }
