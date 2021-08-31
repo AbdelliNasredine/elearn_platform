@@ -4,6 +4,7 @@ use App\Auth\Auth;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\RegisterController;
 use App\Controllers\CourseController;
+use App\Controllers\TeacherController;
 use App\Controllers\FileController;
 use App\Controllers\HomeController;
 use App\Controllers\LanguageController;
@@ -38,7 +39,9 @@ $app->group("/auth", function (App $app) {
 $app->group("", function (App $app) {
 	$app->get("/", HomeController::class . ":index")->setName("home");
 
-	// user routes
+	/**
+	 * USER ROUTES (TEACHERS & STUDENTS)
+	 */
 	$app->get("/user/{id:[0-9]+}", ProfileController::class . ":index")
 		->setName("user.profile");
 
@@ -54,22 +57,30 @@ $app->group("", function (App $app) {
 	$app->post("/user/settings/change-password", ProfileController::class . ":changePassword")
 		->setName("user.changePassword");
 
+	/**
+	 * COURSE ROUTES
+	 */
+	$app->get("/courses/{id:[0-9]}", CourseController::class . ":index")
+		->setName("course");
 
+	/**
+	 * FILE ASSETS
+	 */
 	$app->get("/files/{name}", FileController::class . ":getFile")
 		->setName("file");
-
-	// file upload
 	$app->post("/upload", FileController::class . ":upload")->setName("file.upload");
 
 	/**
 	 * ROUTES FOR ONLY TEACHER ROLE
 	 */
-	$app->get("/create-course", CourseController::class . ":getCreatePage")
+	$app->get("/create-course", TeacherController::class . ":getCreatePage")
 		->setName("create-course")->add(new TeacherMiddleware($app->getContainer()));
 
-	$app->post("/create-course", CourseController::class . ":storeCourse")
+	$app->post("/create-course", TeacherController::class . ":storeCourse")
 		->setName("create-course")->add(new TeacherMiddleware($app->getContainer()));
 
+	$app->get("/my-courses", TeacherController::class . ":getMyCoursesPage")
+		->setName("my-courses")->add(new TeacherMiddleware($app->getContainer()));
 
 	// logout
 	$app->get("/auth/logout", function ($request, $response) {

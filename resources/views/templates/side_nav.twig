@@ -48,12 +48,14 @@
 						<span class="nav-simple__text"> Explore </span>
 					</a>
 				</li>
-				<li class="nav-simple__item" style="margin-top: auto">
-					<a href="#">
-						<span class="material-icons-round">school</span>
-						<span class="nav-simple__text"> My courses </span>
-					</a>
-				</li>
+				{% if auth.user.isTeacher() %}
+					<li class="nav-simple__item" style="margin-top: auto">
+						<a href="{{ path_for("my-courses") }}">
+							<span class="material-icons-round">school</span>
+							<span class="nav-simple__text"> My courses </span>
+						</a>
+					</li>
+				{% endif %}
 				<li class="nav-simple__item">
 					<a href="#">
 						<span class="material-icons-round">settings</span>

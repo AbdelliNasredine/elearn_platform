@@ -1,0 +1,62 @@
+{% extends "templates/main.twig" %}
+{% block title %}
+	Courses - {{ course.name }}
+{% endblock %}
+{% block main %}
+	<div style="background-color: var(--orange);">
+		<div class="container-narrow">
+			<div class="py-2">
+				<ol class="breadcrumb breadcrumb-light">
+					<li class="breadcrumb__item">
+						<a href="{{ path_for("home") }}"><span class="material-icons-round">home</span></a>
+					</li>
+					<li class="breadcrumb__item">
+						<a href="#">courses</a>
+					</li>
+					<li class="breadcrumb__item">
+						<a href="#">{{ course.department.name }}</a>
+					</li>
+					<li class="breadcrumb__item">
+						{{ course.name }}
+					</li>
+				</ol>
+				<h1 class="py-2" style="color: white">{{ course.name }}</h1>
+			</div>
+		</div>
+	</div>
+	<div class="container-narrow py-1">
+		<div class="row">
+			<div class="col-8">
+				<div class="card card-muted">
+					<div class="card__body">
+						<h3 class="mb-1">Overview</h3>
+						<p class="mb-2">
+							{{ course.description }}
+						</p>
+						<h3 class="mb-1">Content</h3>
+					</div>
+				</div>
+			</div>
+			<div class="col-4">
+				<div class="card card-muted">
+					<div class="card__header">
+						<div class="card__title">Course Details</div>
+					</div>
+					<div class="card__body">
+						<ul>
+							<li class="flex col mb-1">
+								<strong>Taught by</strong>
+								<a href="{{ path_for("user.profile", {"id": course.user.id}) }}">{{ course.user.username }}</a>
+							</li>
+							<li class="flex col">
+								<strong>Academic level</strong>
+								<a href="#">{{ course.level.name }}</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+

@@ -9,7 +9,7 @@ use Respect\Validation\Validator as V;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class CourseController extends BaseController
+class TeacherController extends BaseController
 {
 
 	public function getCreatePage(Request $request, Response $response)
@@ -17,12 +17,20 @@ class CourseController extends BaseController
 		$faculties = Faculty::all();
 		$academicLevels = AcademicLevel::all();
 
-		return $this->view($response, "user/add-course.twig", [
+		return $this->view($response, "teacher/add-course.twig", [
 			"faculties" => $faculties,
 			"academicLevels" => $academicLevels,
 		]);
 
 	}
+
+	public function getMyCoursesPage(Request $request, Response $response)
+	{
+		$user = $this->auth->user();
+		$courses = $user->courses;
+		return $this->view($response, "teacher/my-courses.twig", ["courses" => $courses]);
+	}
+
 
 	public function storeCourse(Request $request, Response $response)
 	{
@@ -33,7 +41,7 @@ class CourseController extends BaseController
 			"department" => V::intVal(),
 		]);
 
-		if($validator->isValid()) {
+		if ($validator->isValid()) {
 			$userId = $this->auth->user()->id;
 			Course::create([
 				"name" => $request->getParam("title"),

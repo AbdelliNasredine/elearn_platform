@@ -28,6 +28,11 @@ class User extends Model
 		return $this->hasOne(Profile::class);
 	}
 
+	public function courses()
+	{
+		return $this->hasMany(Course::class);
+	}
+
 	/**
 	 * Creating new user
 	 * @param $username

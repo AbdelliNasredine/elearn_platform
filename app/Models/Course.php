@@ -28,4 +28,8 @@ class Course extends Model
 		return $this->belongsTo(User::class, "user_id");
 	}
 
+	public function level() {
+		return $this->belongsTo(AcademicLevel::class, "academic_level_id");
+	}
+
 }
