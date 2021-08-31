@@ -3,6 +3,7 @@
 use App\Auth\Auth;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\RegisterController;
+use App\Controllers\CourseController;
 use App\Controllers\FileController;
 use App\Controllers\HomeController;
 use App\Controllers\LanguageController;
@@ -10,6 +11,7 @@ use App\Controllers\ProfileController;
 use App\Lib\Session;
 use App\Middlewares\AuthMiddleware;
 use App\Middlewares\GuestMiddleware;
+use App\Middlewares\TeacherMiddleware;
 use Slim\App;
 
 /**
@@ -53,11 +55,21 @@ $app->group("", function (App $app) {
 		->setName("user.changePassword");
 
 
-	$app->get("/files/{name}", FileController::class . ":getFile" )
+	$app->get("/files/{name}", FileController::class . ":getFile")
 		->setName("file");
 
 	// file upload
 	$app->post("/upload", FileController::class . ":upload")->setName("file.upload");
+
+	/**
+	 * ROUTES FOR ONLY TEACHER ROLE
+	 */
+	$app->get("/create-course", CourseController::class . ":getCreatePage")
+		->setName("create-course")->add(new TeacherMiddleware($app->getContainer()));
+
+	$app->post("/create-course", CourseController::class . ":storeCourse")
+		->setName("create-course")->add(new TeacherMiddleware($app->getContainer()));
+
 
 	// logout
 	$app->get("/auth/logout", function ($request, $response) {

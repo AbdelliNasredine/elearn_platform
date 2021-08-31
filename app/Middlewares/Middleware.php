@@ -4,6 +4,7 @@
 namespace App\Middlewares;
 
 use Psr\Container\ContainerInterface;
+use Slim\Exception\MethodNotAllowedException;
 use Slim\Exception\NotFoundException;
 
 class Middleware
@@ -48,6 +49,11 @@ class Middleware
 	public function notFound($request, $response)
 	{
 		throw new NotFoundException($request, $response);
+	}
+
+	public function notAllowed($request, $response)
+	{
+		throw new MethodNotAllowedException($request, $response, []);
 	}
 
 	protected function router()

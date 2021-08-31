@@ -1,7 +1,7 @@
-<nav class="sidenav active">
-	<div class="nav-wrapper">
+<nav class="sidenav" style="height: calc(100vh - 50px); overflow-y: auto">
+	<div class="nav-wrapper" style="height: 100%;">
 		{# <div class="nav__title">Main Menu</div> #}
-		<ul class="nav-simple">
+		<ul class="nav-simple" style="height: 100%;">
 			{# DASHBOARD LINK #}
 
 			{% if auth.user.isAdmin() %}
@@ -44,8 +44,20 @@
 				</li>
 				<li class="nav-simple__item">
 					<a href="#">
+						<span class="material-icons-round">apps</span>
+						<span class="nav-simple__text"> Explore </span>
+					</a>
+				</li>
+				<li class="nav-simple__item" style="margin-top: auto">
+					<a href="#">
 						<span class="material-icons-round">school</span>
-						<span class="nav-simple__text"> Explore Courses </span>
+						<span class="nav-simple__text"> My courses </span>
+					</a>
+				</li>
+				<li class="nav-simple__item">
+					<a href="#">
+						<span class="material-icons-round">settings</span>
+						<span class="nav-simple__text"> Options </span>
 					</a>
 				</li>
 				{# <li class="nav-simple__item"> #}

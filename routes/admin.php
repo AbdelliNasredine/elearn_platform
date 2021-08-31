@@ -49,6 +49,6 @@ $app->group("/admin", function (App $app) {
 	$app->post("/faculties/{id}/departments" , DepartmentManagementController::class . ":store")
 		->setName("admin.addDepartment");
 
-
+	// Courses management
 
 })->add(new \App\Middlewares\AdminMiddleware($app->getContainer()));

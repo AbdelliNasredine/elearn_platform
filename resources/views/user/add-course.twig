@@ -1,0 +1,92 @@
+{% extends "templates/main.twig" %}
+{% block title %}
+	Create new course page
+{% endblock %}
+{% block main %}
+	<div class="container px-2">
+		<div class="py-2">
+			<h2>Create new course</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-4">
+				<h3 class="mb-1">Information</h3>
+				<p style="color: var(--txt-normal-color)">Add basic information about the course that you want to publish</p>
+			</div>
+			<div class="col-8">
+				<div class="card card-muted">
+					<form action="{{ path_for("create-course") }}" method="post">
+						{{ csrf() | raw }}
+						<div class="card__body">
+							<div class="field field-small">
+								<label for="title" class="label">Course Title</label>
+								<input class="field__input" type="text" name="title" id="title" required>
+							</div>
+							<div class="field field-small">
+								<label for="title" class="label">Course Description</label>
+								<textarea class="field__input" name="description" rows="5"></textarea>
+							</div>
+							<div class="flex i-center" style="gap: 10px">
+								<div class="field field-small">
+									<label for="level" class="label">Academic Level</label>
+									<select class="field__input" name="level" id="level" required>
+										<option value="">select level...</option>
+										{% for level in academicLevels %}
+											<option value="{{ level.id }}">{{ level.name }}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="field field-small">
+									<label class="label">Faculty</label>
+									<select class="field__input" name="faculty" id="faculty" required>
+										<option value="">select faculty...</option>
+										{% for faculty in faculties %}
+											<option value="{{ faculty.id }}">{{ faculty.name }}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="field field-small">
+									<label class="label">Department</label>
+									<select class="field__input" name="department" id="department" required>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="card__footer p-1 flex">
+							<button type="submit" class="btn btn-filled btn-secondary" style="margin-left: auto">Create course
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}
+
+{% block js %}
+	<script>
+		const facultySelect = document.querySelector("#faculty");
+		const departmentSelect = document.querySelector("#department");
+
+		const onFacultyChange = (e) => {
+			const facultyId = e.target.value;
+			const url = `/api/faculty/${facultyId}/departments`;
+			console.log(url);
+			fetch(url)
+				.then(res => res.json())
+				.then(departments => {
+					console.log(departments);
+					departmentSelect.innerHTML = [...departments]
+																					.map(d => `<option value="${d.id}" >${d.name}</option>`)
+																					.join("");
+				})
+		}
+
+		facultySelect.addEventListener("change", onFacultyChange)
+
+	</script>
+{% endblock %}
+
+
+

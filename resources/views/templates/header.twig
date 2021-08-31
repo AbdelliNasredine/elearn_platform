@@ -13,6 +13,14 @@
 			</button>
 		</div>
 		<div class="header__separator"></div>
+		{% if auth.user.isTeacher() %}
+			<div class="header__item">
+				<a href="{{ path_for("create-course") }}" class="btn btn-small btn-filled btn-primary">
+					<span class="material-icons-round">publish</span>
+					Create a course
+				</a>
+			</div>
+		{% endif %}
 		<div class="header__item">
 			<a href="#" class="btn btn-text btn-light">
 				<span class="material-icons-round">notifications</span>
