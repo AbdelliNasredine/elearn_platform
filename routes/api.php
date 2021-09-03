@@ -22,3 +22,14 @@ $app->post("/api/course/{course_id:[0-9]+}/chapters", function (\Slim\Http\Reque
 	]);
 	return $response->withStatus(200);
 });
+
+$app->post("/api/course/{course_id:[0-9]+}/chapters/{chapter_id:[0-9]+}/lectures", function ($request, $response, $args) {
+	$chapterId = $args["chapter_id"];
+	\App\Models\Lecture::create([
+		"name" => $request->getParam("name"),
+		"content" => $request->getParam("content"),
+		"lecture_format_id" => $request->getParam("format"),
+		"chapter_id" => $chapterId,
+	]);
+	return $response->withStatus(200);
+});

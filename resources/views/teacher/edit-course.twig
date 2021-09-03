@@ -2,6 +2,9 @@
 {% block title %}
 	Teacher - Edit Course
 {% endblock %}
+{% block css %}
+{% endblock %}
+
 {% block main %}
 	<div class="container">
 		<div class="py-2 flex i-center j-between">
@@ -27,17 +30,73 @@
 			</button>
 		</div>
 		{% for chapter in course.chapters %}
-			<div class="card card-muted {{ loop.last ? "" : "mb-1" }}">
-				<div class="card__body">
-					<div class="flex i-center j-between">
-						<h5 class="flex gap-1">
-							<span class="material-icons-round">bookmarks</span>
-							{{ chapter.name }}
-						</h5>
-						<button class="btn btn-small btn-rounded btn-border-primary">
-							<span class="material-icons-round">class</span>
-							new lecture
+			<div class="card card-muted {{ loop.last ? "" : "mb-1" }} border">
+				<div class="flex i-center j-between p-1">
+					<div class="flex i-center gap-2">
+						<h4 class="flex i-center gap-1"><span class="material-icons-round">bookmarks</span> Chapter {{ loop.index }}
+						</h4>
+						{{ chapter.name }}
+					</div>
+					<div class="flex i-center gap-1">
+						<button class="btn-icon btn-circle btn-small btn-border-secondary" data-accordion="{{ chapter.id }}">
+							<span class="material-icons-round" style="font-size: 28px">arrow_drop_down</span>
 						</button>
+					</div>
+				</div>
+				<div class="p-1" id="{{ chapter.id }}"
+						 style="border-top: thin solid var(--border-color); background-color: var(--bg); max-height: 240px; overflow-y: auto">
+					{% for lecture in chapter.lectures %}
+						<div class="mb-1 flex i-center j-between">
+							<div class="flex i-center gap-2">
+								<strong class="flex i-center gap-1">
+										<span class="material-icons-round">
+											{{ lecture.format.format | lower == "text" ? "article" : "play_circle_filled" }}
+										</span>
+									Lecture {{ loop.index }}
+								</strong>
+								{{ lecture.name }}
+							</div>
+							<a href="#" class="btn-icon btn-circle btn-border-secondary">
+								<span class="material-icons-round">edit</span>
+							</a>
+						</div>
+					{% endfor %}
+					<button class="btn btn-small btn-border-primary modal-toggle" style="font-size: .75rem"
+									data-model-id="new_lecture_{{ chapter.id }}">
+						<span class="material-icons-round">add</span>
+						new lecture
+					</button>
+					<div class="model" id="new_lecture_{{ chapter.id }}">
+						<div class="model__wrapper">
+							<button class="model__close">
+								<span class="material-icons-round">close</span>
+							</button>
+							<h3 class="mb-1">New Lecture</h3>
+							<form action="/api/course/{{ course.id }}/chapters/{{ chapter.id }}/lectures" method="post"
+										onsubmit="newLecture(event)">
+								{{ csrf() | raw }}
+								<div class="field field-small">
+									<label class="label">Lecture Title</label>
+									<input class="field__input" type="text" name="name" required>
+								</div>
+								<div class="field field-small">
+									<label class="label">Lecture Type</label>
+									<select class="field__input" type="text" name="format" required>
+										{% for lectureFormat in lectureFormats %}
+											<option value="{{ lectureFormat.id }}">{{ lectureFormat.format }}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="field field-small">
+									<label class="label">Content</label>
+									<textarea class="field__input" name="content" cols="30" rows="10"></textarea>
+								</div>
+								<button class="btn btn-filled btn-secondary">
+									<span class="material-icons-round">save</span>
+									save
+								</button>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -71,6 +130,21 @@
 {% endblock %}
 {% block js %}
 	<script>
+		const chapterAccordions = document.querySelectorAll("[data-accordion]");
+
+		[...chapterAccordions].forEach(accordion => {
+			const accordionContentId = accordion.getAttribute("data-accordion");
+			accordion.addEventListener("click", () => handleClick(accordionContentId));
+		});
+
+		function handleClick(accordionContentId) {
+			const accordionContent = document.getElementById(accordionContentId);
+			if (accordionContent.style.display === "none")
+				accordionContent.style.display = "block"
+			else
+				accordionContent.style.display = "none";
+		}
+
 		function newChapter(e) {
 			e.preventDefault();
 			const url = e.target.action;
@@ -79,12 +153,26 @@
 				method: "POST",
 				body: new FormData(e.target)
 			}).then((res) => {
-				if(res.ok) {
+				if (res.ok) {
 					document.location.reload();
 				} else {
 					new toast("Error !", "error");
 				}
 			})
+		}
+
+		function newLecture(e) {
+			e.preventDefault();
+			fetch(e.target.action, {
+				method: "POST",
+				body: new FormData(e.target),
+			}).then((res) => {
+				if (res.ok) {
+					document.location.reload();
+				} else {
+					new toast("Error !", "error");
+				}
+			});
 		}
 	</script>
 {% endblock %}

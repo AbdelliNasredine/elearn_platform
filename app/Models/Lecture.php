@@ -8,7 +8,7 @@ class Lecture extends Model
 {
 	protected $table = "lectures";
 	public $timestamps = false;
-	protected $fillable = ["name", "chapter_id", "lecture_format_id"];
+	protected $fillable = ["name", "content" ,"chapter_id", "lecture_format_id"];
 
 	public function chapter()
 	{

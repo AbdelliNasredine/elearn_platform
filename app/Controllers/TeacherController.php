@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\AcademicLevel;
 use App\Models\Course;
 use App\Models\Faculty;
+use App\Models\LectureFormat;
 use Respect\Validation\Validator as V;
 use Slim\Exception\NotFoundException;
 use Slim\Http\Request;
@@ -36,8 +37,9 @@ class TeacherController extends BaseController
 	{
 		$id = $args["id"];
 		$course = Course::find($id);
+		$lectureFormats = LectureFormat::all();
 		if (!$course) throw new NotFoundException($request, $response);
-		return $this->view($response, "teacher/edit-course.twig", ["course" => $course]);
+		return $this->view($response, "teacher/edit-course.twig", ["course" => $course, "lectureFormats" => $lectureFormats]);
 	}
 
 
