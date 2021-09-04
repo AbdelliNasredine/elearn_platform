@@ -6,7 +6,7 @@ use App\Controllers\Auth\RegisterController;
 use App\Controllers\CourseController;
 use App\Controllers\TeacherController;
 use App\Controllers\FileController;
-use App\Controllers\HomeController;
+use App\Controllers\PagesController;
 use App\Controllers\LanguageController;
 use App\Controllers\ProfileController;
 use App\Lib\Session;
@@ -45,7 +45,9 @@ $app->get("/auth/logout", function ($request, $response) {
  * PROTECTED ROUTES (REQUIRES AUTHENTICATION)
  */
 $app->group("", function (App $app) {
-	$app->get("/", HomeController::class . ":index")->setName("home");
+	$app->get("/", PagesController::class . ":index")->setName("home");
+	$app->get("/explore", PagesController::class . ":explorePage")->setName("explore");
+
 
 	/**
 	 * USER ROUTES (TEACHERS & STUDENTS)
@@ -70,6 +72,7 @@ $app->group("", function (App $app) {
 	 */
 	$app->get("/courses/{id:[0-9]}", CourseController::class . ":index")
 		->setName("course");
+	$app->get("/departments/{department_id}", CourseController::class . ":courseByDepartment")->setName("course.department");
 
 	/**
 	 * FILE ASSETS

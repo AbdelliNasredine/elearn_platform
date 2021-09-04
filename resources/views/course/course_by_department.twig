@@ -1,0 +1,55 @@
+{% extends "templates/main.twig" %}
+{% block title %}
+	Department of {{ department.name }}
+{% endblock %}
+{% block main %}
+	<div class="container-narrow">
+		<div class="py-2">
+			<ol class="breadcrumb">
+				<li class="breadcrumb__item">
+					<a href="#"><span class="material-icons-round">home</span></a>
+				</li>
+				<li class="breadcrumb__item">
+					<a href="{{ path_for("explore") }}">departments</a>
+				</li>
+				<li class="breadcrumb__item">
+					{{ department.name }}
+				</li>
+			</ol>
+			<h1>Department of {{ department.name }}</h1>
+		</div>
+	</div>
+	<div class="container-narrow">
+		<h3 class="mb-1">{{ department.name }} Courses</h3>
+		<div class="card card-muted">
+			<table class="table">
+				<thead>
+				<tr>
+					<th>Course Title</th>
+					<th>Academic Level</th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for course in department.courses %}
+					<tr>
+						<td>
+							<a href="{{ path_for("course", {"id": course.id}) }}">{{ course.name }}</a>
+						</td>
+						<td>
+							{{ course.level.name }}
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="2">
+							<div class="py-1 flex i-center j-center">
+								<b>No Course Found</b>
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}

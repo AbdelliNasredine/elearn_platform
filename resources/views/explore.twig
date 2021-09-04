@@ -1,0 +1,51 @@
+{% extends "templates/main.twig" %}
+{% block title %}
+	Explore Courses
+{% endblock %}
+
+{% block main %}
+	<div class="container-narrow px-1">
+		<div class="py-2">
+			<ol class="breadcrumb">
+				<li class="breadcrumb__item">
+					<a href="{{ path_for("home") }}"><span class="material-icons-round">home</span></a>
+				</li>
+				<li class="breadcrumb__item">
+					Explore
+				</li>
+			</ol>
+			<h1>Explore Courses</h1>
+		</div>
+	</div>
+	<div class="container-narrow px-1">
+		<h3>Explore Courses by Department</h3>
+		<p class="mb-1" style="font-size: .875rem">
+			Click on a department below for general information,
+			relevant links, and a complete listing of
+			courses
+		</p>
+		<div class="card card-muted">
+			<div class="card__body">
+				<div class="row">
+					{% for faculty in faculties %}
+						<div class="col-6">
+							<h5 class="mb-1">{{ faculty.name }}</h5>
+							<ul class="flex col" style="list-style: none">
+								{% for department in faculty.departments %}
+									<li class="flex i-center gap-1" style="font-size: .875rem">
+										<span class="material-icons-round" style="font-size: 1.125rem">school</span>
+										<a href="{{ path_for("course.department", {"department_id": department.id}) }}">
+											{{ department.name }}
+										</a>
+									</li>
+								{% else %}
+									<li><small>No department Found</small></li>
+								{% endfor %}
+							</ul>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
