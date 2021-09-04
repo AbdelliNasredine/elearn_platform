@@ -5,6 +5,7 @@
  */
 
 use App\Controllers\AdminController;
+use App\Controllers\Management\CourseManagementController;
 use App\Controllers\Management\DepartmentManagementController;
 use App\Controllers\Management\DocumentController;
 use App\Controllers\Management\FacultyManagementController;
@@ -44,11 +45,13 @@ $app->group("/admin", function (App $app) {
 		->setName("admin.addFaculty");
 	$app->post("/faculties/new", FacultyManagementController::class . ":store")
 		->setName("admin.addFaculty");
-	$app->get("/faculties/{id}" , FacultyManagementController::class . ":get")
+	$app->get("/faculties/{id}", FacultyManagementController::class . ":get")
 		->setName("admin.faculty");
-	$app->post("/faculties/{id}/departments" , DepartmentManagementController::class . ":store")
+	$app->post("/faculties/{id}/departments", DepartmentManagementController::class . ":store")
 		->setName("admin.addDepartment");
 
 	// Courses management
+	$app->get("/courses", CourseManagementController::class . ":index")
+		->setName("admin.courses");
 
 })->add(new \App\Middlewares\AdminMiddleware($app->getContainer()));

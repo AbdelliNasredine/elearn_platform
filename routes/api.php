@@ -1,6 +1,4 @@
 <?php
-
-
 $app->get("/api/faculty/{id}/departments", function ($request, \Slim\Http\Response $response, $args) {
 
 	$faculty_id = $args["id"];
