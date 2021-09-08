@@ -70,9 +70,14 @@ $app->group("", function (App $app) {
 	/**
 	 * COURSE ROUTES
 	 */
-	$app->get("/courses/{id:[0-9]}", CourseController::class . ":index")
+	$app->get("/courses/{id:[0-9]+}", CourseController::class . ":index")
 		->setName("course");
-	$app->get("/departments/{department_id}", CourseController::class . ":courseByDepartment")->setName("course.department");
+	$app->get("/courses/{c_id:[0-9]+}/lectures", CourseController::class . ":start")
+		->setName("startCourse");
+	$app->get("/courses/{c_id:[0-9]+}/lectures/{l_id:[0-9]+}", CourseController::class . ":lecture")
+		->setName("lectures");
+	$app->get("/departments/{department_id}", CourseController::class . ":courseByDepartment")
+		->setName("course.department");
 
 	/**
 	 * FILE ASSETS

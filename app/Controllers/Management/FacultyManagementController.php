@@ -29,7 +29,7 @@ class FacultyManagementController extends BaseController
 			$facultyName = $request->getParam("name");
 			// check for uniqueness
 			$faculty = Faculty::where("name", $facultyName)->get();
-			if (!$faculty) {
+			if ($faculty->isEmpty()) {
 				// save and redirect
 				Faculty::create(["name" => $facultyName]);
 				$this->flash("success", "Faculty {$facultyName} has been created");

@@ -59,7 +59,7 @@ class TeacherController extends BaseController
 				"description" => $request->getParam("description"),
 				"is_active" => false,
 				"academic_level_id" => $request->getParam("level"),
-				"department_id" => $request->getParam("department"),
+				"departement_id" => $request->getParam("department"),
 				"user_id" => $userId,
 			]);
 			$this->flash("success", "Your course has been created");

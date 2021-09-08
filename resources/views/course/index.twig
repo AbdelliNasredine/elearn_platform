@@ -21,7 +21,7 @@
 					</li>
 				</ol>
 				<h1 class="py-2" style="color: white">{{ course.name }}</h1>
-				<a href="#" class="btn btn-small btn-light">Start Course</a>
+				<a href="{{ path_for("startCourse", {"c_id": course.id}) }}" class="btn btn-small btn-light">Start Course</a>
 			</div>
 		</div>
 	</div>

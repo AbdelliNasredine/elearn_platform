@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Lecture extends Model
 {
 	protected $table = "lectures";
-	public $timestamps = false;
 	protected $fillable = ["name", "content" ,"chapter_id", "lecture_format_id"];
 
 	public function chapter()

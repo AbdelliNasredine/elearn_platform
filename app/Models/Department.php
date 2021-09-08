@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Department extends Model
 {
-	protected $table = "departements";
+	protected $table = "departments";
 	public $timestamps = false;
 	protected $fillable = ["name", "cover_image", "about", "faculty_id"];
 

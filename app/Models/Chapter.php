@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Chapter extends Model
 {
 	protected $table = "chapters";
-	public $timestamps = false;
 	protected $fillable = ["name", "course_id"];
 
 	public function course()
