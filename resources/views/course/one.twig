@@ -9,6 +9,22 @@
           padding-left: 10px;
           font-weight: 900;
       }
+
+      .video-container {
+          position: relative;
+          padding-bottom: 56.25%;
+          padding-top: 30px;
+          height: 0;
+          overflow: hidden;
+      }
+
+      .video-container iframe, .video-container object, .video-container embed {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+      }
 	</style>
 {% endblock %}
 
@@ -19,7 +35,17 @@
 				<a href="#" class="btn btn-small"><span class="material-icons-round">chevron_left</span> previous</a>
 				<a href="#" class="btn btn-small">next <span class="material-icons-round">chevron_right</span></a>
 			</div>
-			<h1 style="margin-bottom: 10px">{{ lecture.name }}</h1>
+			<h1>{{ lecture.name }}</h1>
+			<small class="mb-1" style="display: inline-block; color: var(--icon-color)">updated {{ human_diff(lecture.updated_at) }}</small>
+			{% if lecture.format.format | lower == "video" %}
+				<div class="video-container">
+					<iframe width="100%" height="auto" src="https://www.youtube.com/embed/{{ lecture.video_url }}"
+									title="YouTube video player"
+									frameborder="0"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+									allowfullscreen></iframe>
+				</div>
+			{% endif %}
 			<div>
 				{{ lecture.content | raw }}
 			</div>
@@ -37,7 +63,8 @@
 								<li>
 									<a
 										class="{{ is_current_path("lectures", {"c_id": course.id, "l_id": lecture.id}) ? "current" : "" }} flex i-center j-between"
-										href="{{ path_for("lectures", {"c_id": course.id, "l_id": lecture.id}) }}" style="text-decoration: none">
+										href="{{ path_for("lectures", {"c_id": course.id, "l_id": lecture.id}) }}"
+										style="text-decoration: none">
 										{{ lecture.name }}
 										<span class="material-icons-round" style="font-size: 18px">
 											{{ lecture.format.format | lower   == "video" ?  "play_circle_outline" : "article" }}
