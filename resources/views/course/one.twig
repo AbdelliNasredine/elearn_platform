@@ -2,6 +2,16 @@
 {% block title %}
 	{{ course.name }}
 {% endblock %}
+{% block css %}
+	<style>
+      .current {
+          border-left: 4px solid var(--blue);
+          padding-left: 10px;
+          font-weight: 900;
+      }
+	</style>
+{% endblock %}
+
 {% block main %}
 	<div class="lecture">
 		<div class="lecture__body">
@@ -15,18 +25,24 @@
 			</div>
 		</div>
 		<div class="lecture__aside">
-			<h5>Course Content</h5>
 			<ul class="chapters-list">
 				{% for chapter in course.chapters %}
 					<li class="chapters-list__item">
-						<h6 class="chapter">
+						<h6 class="chapter mb-1">
 							<span>Chapter {{ loop.index }}: {{ chapter.name }}</span>
 							<span class="material-icons-round">bookmark</span>
 						</h6>
 						<ul class="lecturs-list">
 							{% for lecture in chapter.lectures %}
 								<li>
-									<a href="#">{{ lecture.name }}</a>
+									<a
+										class="{{ is_current_path("lectures", {"c_id": course.id, "l_id": lecture.id}) ? "current" : "" }} flex i-center j-between"
+										href="{{ path_for("lectures", {"c_id": course.id, "l_id": lecture.id}) }}" style="text-decoration: none">
+										{{ lecture.name }}
+										<span class="material-icons-round" style="font-size: 18px">
+											{{ lecture.format.format | lower   == "video" ?  "play_circle_outline" : "article" }}
+										</span>
+									</a>
 								</li>
 							{% endfor %}
 						</ul>
