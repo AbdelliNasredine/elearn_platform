@@ -26,6 +26,7 @@ $app->post("/api/course/{course_id:[0-9]+}/chapters/{chapter_id:[0-9]+}/lectures
 	\App\Models\Lecture::create([
 		"name" => $request->getParam("name"),
 		"content" => $request->getParam("content"),
+		"video_url" => $request->getParam("video_url"),
 		"lecture_format_id" => $request->getParam("format"),
 		"chapter_id" => $chapterId,
 	]);

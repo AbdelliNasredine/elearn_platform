@@ -81,21 +81,28 @@
 								</div>
 								<div class="field field-small">
 									<label class="label">Lecture Type</label>
-									<select class="field__input" type="text" name="format" required>
+									<select class="field__input" id="{{ chapter.id }}" type="text" name="format" required
+													onchange="handleLectureTypeChange(event)">
+										<option value="">Chose lecture type...</option>
 										{% for lectureFormat in lectureFormats %}
 											<option value="{{ lectureFormat.id }}">{{ lectureFormat.format }}</option>
 										{% endfor %}
 									</select>
 								</div>
-								<div class="field field-small">
+								<div class="field field-small text-{{ chapter.id }}" style="display: none">
 									<label class="label">Content</label>
 									<textarea class="field__input" name="content" cols="30" rows="10"></textarea>
+								</div>
+								<div class="field field-small video-{{ chapter.id }}" style="display: none">
+									<label class="label">Video url <small>(youtube video id)</small></label>
+									<input type="text" name="video_url" class="field__input">
 								</div>
 								<button class="btn btn-filled btn-secondary">
 									<span class="material-icons-round">save</span>
 									save
 								</button>
 							</form>
+
 						</div>
 					</div>
 				</div>
@@ -174,5 +181,23 @@
 				}
 			});
 		}
+
+		function handleLectureTypeChange(e) {
+			const {target} = e;
+			const selectedValue = target.value;
+			const lectureType = [...target.querySelectorAll("option")]
+				.filter(option => option.value === selectedValue)[0].innerText.toLowerCase();
+			const lectureTypes = ["video", "text"];
+			if (lectureTypes.includes(lectureType)) {
+				const chapterId = target.id;
+				const className = `.${lectureType}-${chapterId}`;
+				lectureTypes.map(type => `.${type}-${chapterId}`)
+					.forEach(typeClass => {
+						const element = document.querySelector(typeClass);
+						element.style.display = className === typeClass ? "block" : "none";
+					});
+			}
+		}
+
 	</script>
 {% endblock %}

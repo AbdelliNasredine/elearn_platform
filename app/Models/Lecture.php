@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Lecture extends Model
 {
 	protected $table = "lectures";
-	protected $fillable = ["name", "content" ,"chapter_id", "lecture_format_id"];
+	protected $fillable = ["name", "content", "video_url" ,"chapter_id", "lecture_format_id"];
 
 	public function chapter()
 	{
